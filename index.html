@@ -37,6 +37,75 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ===== PAGE LOADER ===== */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+        }
+
+        .page-loader.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            animation: loaderPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(124,110,240,0.4); }
+            50% { transform: scale(1.08); box-shadow: 0 0 40px 10px rgba(124,110,240,0.2); }
+        }
+
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+            z-index: 1001;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* ===== CURSOR GLOW ===== */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124,110,240,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+
+        .cursor-glow.visible {
+            opacity: 1;
+        }
+
         /* ===== NAVBAR ===== */
         nav {
             position: fixed;
@@ -53,7 +122,11 @@
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            transition: background 0.3s;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+        }
+
+        nav.nav-hidden {
+            transform: translateY(-100%);
         }
 
         .nav-logo {
@@ -68,6 +141,11 @@
             width: 28px;
             height: 28px;
             border-radius: 7px;
+            transition: transform 0.3s;
+        }
+
+        .nav-logo:hover img {
+            transform: rotate(-10deg) scale(1.1);
         }
 
         .nav-logo span {
@@ -88,6 +166,22 @@
             font-size: 13px;
             font-weight: 400;
             transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:not(.nav-cta)::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:not(.nav-cta):hover::after {
+            width: 100%;
         }
 
         .nav-links a:hover { color: var(--text); }
@@ -99,10 +193,14 @@
             border-radius: 980px;
             font-weight: 500 !important;
             font-size: 13px !important;
-            transition: opacity 0.2s !important;
+            transition: all 0.3s !important;
         }
 
-        .nav-cta:hover { opacity: 0.85; }
+        .nav-cta:hover {
+            opacity: 0.85;
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(124,110,240,0.3);
+        }
 
         /* ===== HERO ===== */
         .hero {
@@ -131,9 +229,27 @@
             animation: heroGlow 8s ease-in-out infinite alternate;
         }
 
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(86,191,181,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            animation: heroGlow2 10s ease-in-out infinite alternate;
+        }
+
         @keyframes heroGlow {
-            0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-            100% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            0% { transform: translateX(-50%) scale(1) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1.2) rotate(10deg); opacity: 1; }
+        }
+
+        @keyframes heroGlow2 {
+            0% { transform: translateX(-50%) scale(1); }
+            100% { transform: translateX(-40%) scale(1.3); }
         }
 
         .hero-badge {
@@ -149,8 +265,8 @@
             font-weight: 500;
             margin-bottom: 32px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s 0.2s forwards;
+            transform: translateY(20px) scale(0.95);
+            animation: fadeUpScale 0.8s 0.5s forwards;
         }
 
         .hero-badge-dot {
@@ -162,19 +278,32 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(124,110,240,0.4); }
+            50% { opacity: 0.4; box-shadow: 0 0 0 6px rgba(124,110,240,0); }
         }
 
+        /* Hero text with word-by-word reveal */
         .hero h1 {
             font-size: clamp(48px, 8vw, 96px);
             font-weight: 800;
             letter-spacing: -0.04em;
             line-height: 1.05;
             margin-bottom: 24px;
+        }
+
+        .hero h1 .word {
+            display: inline-block;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 0.8s 0.4s forwards;
+            transform: translateY(40px) rotateX(40deg);
+            animation: wordReveal 0.7s forwards;
+            transform-origin: bottom center;
+        }
+
+        @keyframes wordReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
         }
 
         .hero h1 .gradient-text {
@@ -201,7 +330,7 @@
             margin-bottom: 48px;
             opacity: 0;
             transform: translateY(30px);
-            animation: fadeUp 0.8s 0.6s forwards;
+            animation: fadeUp 0.8s 1.2s forwards;
         }
 
         .hero-buttons {
@@ -210,7 +339,7 @@
             align-items: center;
             opacity: 0;
             transform: translateY(30px);
-            animation: fadeUp 0.8s 0.8s forwards;
+            animation: fadeUp 0.8s 1.4s forwards;
         }
 
         .btn-primary {
@@ -224,12 +353,33 @@
             font-size: 17px;
             font-weight: 600;
             text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
         }
 
         .btn-primary:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
             box-shadow: 0 8px 40px rgba(255,255,255,0.15);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
         }
 
         .btn-primary svg {
@@ -249,16 +399,26 @@
             font-size: 17px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-secondary:hover {
             background: rgba(124,110,240,0.08);
             border-color: rgba(124,110,240,0.5);
+            transform: scale(1.05);
+            box-shadow: 0 4px 30px rgba(124,110,240,0.15);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
         }
 
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUpScale {
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* ===== PHONE MOCKUP ===== */
@@ -266,8 +426,16 @@
             position: relative;
             margin-top: 80px;
             opacity: 0;
-            transform: translateY(60px);
-            animation: fadeUp 1s 1s forwards;
+            transform: translateY(80px) scale(0.9);
+            animation: deviceReveal 1.2s 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            perspective: 1000px;
+        }
+
+        @keyframes deviceReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .phone-frame {
@@ -283,6 +451,16 @@
                 0 20px 80px rgba(0,0,0,0.6),
                 0 0 120px rgba(124,110,240,0.1),
                 inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+        }
+
+        .phone-frame:hover {
+            transform: rotateY(-5deg) rotateX(5deg) scale(1.02);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.08),
+                0 30px 100px rgba(0,0,0,0.6),
+                0 0 160px rgba(124,110,240,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.15);
         }
 
         .phone-screen {
@@ -318,6 +496,8 @@
             font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.3px;
+            opacity: 0;
+            animation: phoneContentFade 0.6s 2.2s forwards;
         }
 
         .phone-greeting span {
@@ -334,6 +514,13 @@
             border-radius: 20px;
             padding: 16px;
             text-align: center;
+            opacity: 0;
+            animation: phoneContentFade 0.6s 2.4s forwards;
+        }
+
+        @keyframes phoneContentFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .phone-score-value {
@@ -358,6 +545,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
+            opacity: 0;
+            animation: phoneContentFade 0.6s 2.6s forwards;
         }
 
         .phone-metric {
@@ -365,24 +554,17 @@
             border-radius: 12px;
             padding: 10px 8px;
             text-align: center;
+            transition: transform 0.3s, background 0.3s;
         }
 
-        .phone-metric-icon {
-            font-size: 16px;
-            margin-bottom: 4px;
+        .phone-metric:hover {
+            background: rgba(255,255,255,0.08);
+            transform: scale(1.05);
         }
 
-        .phone-metric-val {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .phone-metric-label {
-            font-size: 9px;
-            color: var(--text2);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .phone-metric-icon { font-size: 16px; margin-bottom: 4px; }
+        .phone-metric-val { font-size: 16px; font-weight: 700; }
+        .phone-metric-label { font-size: 9px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
 
         .phone-card-mini {
             background: rgba(255,255,255,0.03);
@@ -392,6 +574,16 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            opacity: 0;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .phone-card-mini:nth-child(5) { animation: phoneContentFade 0.6s 2.8s forwards; }
+        .phone-card-mini:nth-child(6) { animation: phoneContentFade 0.6s 3.0s forwards; }
+
+        .phone-card-mini:hover {
+            background: rgba(255,255,255,0.06);
+            transform: translateX(4px);
         }
 
         .phone-card-mini-icon {
@@ -405,15 +597,8 @@
             flex-shrink: 0;
         }
 
-        .phone-card-mini-text h4 {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .phone-card-mini-text p {
-            font-size: 11px;
-            color: var(--text2);
-        }
+        .phone-card-mini-text h4 { font-size: 13px; font-weight: 600; }
+        .phone-card-mini-text p { font-size: 11px; color: var(--text2); }
 
         /* Floating glows around device */
         .device-glow {
@@ -424,52 +609,46 @@
         }
 
         .device-glow-1 {
-            width: 300px;
-            height: 300px;
+            width: 300px; height: 300px;
             background: rgba(124,110,240,0.12);
-            top: 20%;
-            left: -100px;
+            top: 20%; left: -100px;
             animation: float1 6s ease-in-out infinite;
         }
 
         .device-glow-2 {
-            width: 250px;
-            height: 250px;
+            width: 250px; height: 250px;
             background: rgba(232,126,154,0.1);
-            bottom: 10%;
-            right: -80px;
+            bottom: 10%; right: -80px;
             animation: float2 7s ease-in-out infinite;
         }
 
         .device-glow-3 {
-            width: 200px;
-            height: 200px;
+            width: 200px; height: 200px;
             background: rgba(86,191,181,0.1);
-            top: 50%;
-            right: -60px;
+            top: 50%; right: -60px;
             animation: float3 5s ease-in-out infinite;
         }
 
         @keyframes float1 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(20px, -30px); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -30px) scale(1.1); }
         }
 
         @keyframes float2 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-15px, 20px); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-15px, 20px) scale(1.15); }
         }
 
         @keyframes float3 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(10px, -20px); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10px, -20px) scale(1.05); }
         }
 
         /* ===== SCROLL REVEAL ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal.active {
@@ -477,10 +656,44 @@
             transform: translateY(0);
         }
 
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         .reveal-delay-1 { transition-delay: 0.1s; }
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
 
         /* ===== SECTION COMMON ===== */
         section {
@@ -528,6 +741,10 @@
             width: max-content;
         }
 
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
         .marquee-item {
             display: flex;
             align-items: center;
@@ -537,10 +754,21 @@
             color: var(--text3);
             font-size: 15px;
             font-weight: 500;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .marquee-item:hover {
+            color: var(--text);
+            transform: scale(1.05);
         }
 
         .marquee-item span {
             font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .marquee-item:hover span {
+            transform: scale(1.3) rotate(-10deg);
         }
 
         @keyframes marquee {
@@ -564,16 +792,51 @@
             padding: 40px 32px;
             position: relative;
             overflow: hidden;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
         }
 
         .bento-card:hover {
             border-color: rgba(124,110,240,0.2);
             box-shadow: 0 8px 60px rgba(124,110,240,0.06);
+            transform: translateY(-6px);
         }
 
         .bento-card.large {
             grid-column: span 2;
+        }
+
+        /* Card shimmer on hover */
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: left 0.6s;
+        }
+
+        .bento-card:hover::before {
+            left: 120%;
+        }
+
+        /* Card mouse-follow gradient */
+        .bento-card .card-highlight {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124,110,240,0.06), transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            transform: translate(-50%, -50%);
+        }
+
+        .bento-card:hover .card-highlight {
+            opacity: 1;
         }
 
         .bento-card-icon {
@@ -585,6 +848,11 @@
             justify-content: center;
             font-size: 22px;
             margin-bottom: 20px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card:hover .bento-card-icon {
+            transform: scale(1.15) rotate(-5deg);
         }
 
         .bento-card h3 {
@@ -592,6 +860,11 @@
             font-weight: 700;
             margin-bottom: 8px;
             letter-spacing: -0.02em;
+            transition: transform 0.3s;
+        }
+
+        .bento-card:hover h3 {
+            transform: translateX(4px);
         }
 
         .bento-card p {
@@ -600,17 +873,22 @@
             line-height: 1.6;
         }
 
-        /* Card accent glows */
         .bento-card .card-glow {
             position: absolute;
             width: 200px;
             height: 200px;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.3;
+            opacity: 0.2;
             pointer-events: none;
             right: -40px;
             top: -40px;
+            transition: opacity 0.4s, transform 0.4s;
+        }
+
+        .bento-card:hover .card-glow {
+            opacity: 0.4;
+            transform: scale(1.2);
         }
 
         /* ===== AVELA AI SECTION ===== */
@@ -630,6 +908,12 @@
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 24px;
             overflow: hidden;
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .avela-demo:hover {
+            border-color: rgba(124,110,240,0.15);
+            box-shadow: 0 16px 80px rgba(124,110,240,0.06);
         }
 
         .avela-header {
@@ -645,20 +929,34 @@
             height: 36px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
         }
 
-        .avela-name {
-            font-weight: 600;
-            font-size: 15px;
-        }
+        .avela-name { font-weight: 600; font-size: 15px; }
 
         .avela-status {
             font-size: 12px;
             color: var(--accent3);
+            position: relative;
+            padding-left: 12px;
+        }
+
+        .avela-status::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent3);
+            animation: pulse 2s infinite;
         }
 
         .avela-chat {
@@ -674,6 +972,20 @@
             border-radius: 20px;
             font-size: 14px;
             line-height: 1.6;
+            opacity: 0;
+            transform: translateY(15px);
+            text-align: left;
+        }
+
+        .chat-msg.animated {
+            animation: chatBubble 0.5s forwards;
+        }
+
+        @keyframes chatBubble {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chat-msg.user {
@@ -727,6 +1039,12 @@
             padding: 10px 18px;
             color: var(--text2);
             font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .avela-input-field:hover {
+            border-color: rgba(124,110,240,0.3);
+            box-shadow: 0 0 20px rgba(124,110,240,0.05);
         }
 
         .avela-input-send {
@@ -739,6 +1057,13 @@
             justify-content: center;
             color: white;
             font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .avela-input-send:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(124,110,240,0.4);
         }
 
         /* ===== METRICS SECTION ===== */
@@ -758,19 +1083,41 @@
             border-radius: 20px;
             padding: 32px 24px;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            cursor: default;
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: linear-gradient(to top, rgba(124,110,240,0.03), transparent);
+            transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .metric-card:hover::after {
+            height: 100%;
         }
 
         .metric-card:hover {
             border-color: rgba(124,110,240,0.15);
-            transform: translateY(-4px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(124,110,240,0.08);
         }
 
         .metric-icon {
             font-size: 28px;
             margin-bottom: 16px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .metric-card:hover .metric-icon {
+            transform: scale(1.2) translateY(-4px);
         }
 
         .metric-value {
@@ -778,6 +1125,8 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
         }
 
         .metric-label {
@@ -785,6 +1134,8 @@
             color: var(--text2);
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            position: relative;
+            z-index: 1;
         }
 
         .metric-bar {
@@ -793,13 +1144,38 @@
             border-radius: 2px;
             background: rgba(255,255,255,0.06);
             overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
 
         .metric-bar-fill {
             height: 100%;
             border-radius: 2px;
             width: 0;
-            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        /* Bar shimmer animation */
+        .metric-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: barShimmer 2s infinite;
+            opacity: 0;
+        }
+
+        .metric-card.active .metric-bar-fill::after {
+            opacity: 1;
+        }
+
+        @keyframes barShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .metric-card.active .metric-bar-fill {
@@ -820,18 +1196,10 @@
             margin-bottom: 160px;
         }
 
-        .feature-row:last-child {
-            margin-bottom: 0;
-        }
+        .feature-row:last-child { margin-bottom: 0; }
+        .feature-row.reverse { flex-direction: row-reverse; }
 
-        .feature-row.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .feature-text {
-            flex: 1;
-        }
-
+        .feature-text { flex: 1; }
         .feature-visual {
             flex: 1;
             display: flex;
@@ -845,6 +1213,12 @@
             color: transparent;
             line-height: 1;
             margin-bottom: 20px;
+            transition: transform 0.4s;
+        }
+
+        .feature-text:hover .feature-number {
+            transform: scale(1.05);
+            -webkit-text-stroke: 1px rgba(124,110,240,0.5);
         }
 
         .feature-text h3 {
@@ -875,6 +1249,14 @@
             border-radius: 980px;
             font-size: 13px;
             color: var(--text2);
+            transition: all 0.3s;
+        }
+
+        .feature-tag:hover {
+            background: rgba(124,110,240,0.08);
+            border-color: rgba(124,110,240,0.3);
+            color: var(--accent);
+            transform: translateY(-2px);
         }
 
         /* Visual cards in feature sections */
@@ -885,6 +1267,13 @@
             border-radius: 24px;
             padding: 32px;
             position: relative;
+            transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .visual-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(124,110,240,0.15);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         .visual-ring {
@@ -900,10 +1289,8 @@
 
         .visual-ring svg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             transform: rotate(-90deg);
         }
 
@@ -913,9 +1300,7 @@
             stroke-linecap: round;
         }
 
-        .visual-ring svg circle.bg {
-            stroke: rgba(255,255,255,0.04);
-        }
+        .visual-ring svg circle.bg { stroke: rgba(255,255,255,0.04); }
 
         .visual-ring svg circle.fill-ring {
             stroke-dasharray: 502;
@@ -925,6 +1310,22 @@
 
         .visual-ring.active svg circle.fill-ring {
             stroke-dashoffset: var(--offset);
+        }
+
+        /* Ring pulse glow */
+        .visual-ring::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(86,191,181,0.08), transparent 70%);
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
         }
 
         .visual-ring-value {
@@ -954,11 +1355,44 @@
             border-radius: 6px 6px 0 0;
             transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1);
             height: 0;
+            position: relative;
+            cursor: default;
+        }
+
+        .sleep-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 6px 6px 0 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sleep-bar:hover::after {
+            opacity: 1;
+        }
+
+        .sleep-bar:hover {
+            filter: brightness(1.3);
+            transform: scaleY(1.05);
+            transform-origin: bottom;
         }
 
         .sleep-bars.active .sleep-bar {
             height: var(--h);
         }
+
+        .sleep-bars.active .sleep-bar:nth-child(1) { transition-delay: 0.0s; }
+        .sleep-bars.active .sleep-bar:nth-child(2) { transition-delay: 0.08s; }
+        .sleep-bars.active .sleep-bar:nth-child(3) { transition-delay: 0.16s; }
+        .sleep-bars.active .sleep-bar:nth-child(4) { transition-delay: 0.24s; }
+        .sleep-bars.active .sleep-bar:nth-child(5) { transition-delay: 0.32s; }
+        .sleep-bars.active .sleep-bar:nth-child(6) { transition-delay: 0.40s; }
+        .sleep-bars.active .sleep-bar:nth-child(7) { transition-delay: 0.48s; }
 
         .sleep-days {
             display: flex;
@@ -991,6 +1425,12 @@
             height: 600px;
             background: radial-gradient(circle, rgba(86,191,181,0.08) 0%, transparent 70%);
             pointer-events: none;
+            animation: statementGlow 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes statementGlow {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
         }
 
         .statement h2 {
@@ -1008,6 +1448,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
         }
 
         /* ===== CTA SECTION ===== */
@@ -1048,29 +1490,56 @@
             color: #000;
             border-radius: 14px;
             text-decoration: none;
-            transition: transform 0.2s;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-store-badge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(124,110,240,0.1), transparent 30%);
+            animation: badgeRotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .app-store-badge:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes badgeRotate {
+            to { transform: rotate(360deg); }
         }
 
         .app-store-badge:hover {
-            transform: scale(1.03);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255,255,255,0.15);
         }
 
-        .app-store-badge svg {
-            width: 28px;
-            height: 28px;
+        .app-store-badge:active {
+            transform: scale(0.97);
         }
 
-        .app-store-badge .badge-text {
+        .app-store-badge svg { width: 28px; height: 28px; position: relative; z-index: 1; }
+
+        .badge-text {
             text-align: left;
+            position: relative;
+            z-index: 1;
         }
 
-        .app-store-badge .badge-text small {
+        .badge-text small {
             font-size: 10px;
             display: block;
             opacity: 0.6;
         }
 
-        .app-store-badge .badge-text strong {
+        .badge-text strong {
             font-size: 18px;
             font-weight: 600;
         }
@@ -1099,6 +1568,11 @@
             width: 24px;
             height: 24px;
             border-radius: 6px;
+            transition: transform 0.3s;
+        }
+
+        .footer-left:hover img {
+            transform: rotate(-10deg);
         }
 
         .footer-left span {
@@ -1115,11 +1589,13 @@
             font-size: 13px;
             color: var(--text3);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.2s;
+            display: inline-block;
         }
 
         .footer-links a:hover {
             color: var(--text);
+            transform: translateY(-1px);
         }
 
         .footer-bottom {
@@ -1133,32 +1609,17 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
-            .bento-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .bento-card.large {
-                grid-column: span 2;
-            }
-            .metrics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .feature-row, .feature-row.reverse {
-                flex-direction: column;
-                gap: 48px;
-            }
+            .bento-grid { grid-template-columns: 1fr 1fr; }
+            .bento-card.large { grid-column: span 2; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .feature-row, .feature-row.reverse { flex-direction: column; gap: 48px; }
             nav { padding: 0 20px; }
         }
 
         @media (max-width: 600px) {
-            .bento-grid {
-                grid-template-columns: 1fr;
-            }
-            .bento-card.large {
-                grid-column: span 1;
-            }
-            .metrics-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-card.large { grid-column: span 1; }
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
             .hero-buttons {
                 flex-direction: column;
                 width: 100%;
@@ -1168,20 +1629,10 @@
                 width: 100%;
                 justify-content: center;
             }
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .footer-inner {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
             .nav-links { display: none; }
-            .phone-frame {
-                width: 240px;
-                height: 500px;
-            }
+            .phone-frame { width: 240px; height: 500px; }
             section { padding: 100px 20px; }
             .feature-showcase { padding: 100px 20px; }
             .statement { padding: 120px 20px; }
@@ -1190,10 +1641,8 @@
         /* ===== PARTICLES ===== */
         .particles {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
@@ -1201,10 +1650,23 @@
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(124,110,240,0.3);
             border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* ===== GRID BACKGROUND ===== */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
         }
 
         /* Horizontal rule divider */
@@ -1214,15 +1676,62 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
         }
+
+        /* ===== PLAN CARDS ===== */
+        .plan-item {
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+            cursor: default;
+        }
+
+        .plan-item:hover {
+            transform: translateX(6px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .plan-item-icon {
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .plan-item:hover .plan-item-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .plan-item-text h4 { font-size: 14px; font-weight: 600; }
+        .plan-item-text p { font-size: 12px; color: var(--text2); }
     </style>
 </head>
 <body>
+
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-logo">V</div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Cursor Glow -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Grid Background -->
+    <div class="grid-bg"></div>
 
     <!-- Particles -->
     <div class="particles" id="particles"></div>
 
     <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <a href="#" class="nav-logo">
             <img src="appicon.png" alt="Vela">
             <span>Vela</span>
@@ -1245,8 +1754,12 @@
         </div>
 
         <h1>
-            Your health.<br>
-            <span class="gradient-text">Intelligently decoded.</span>
+            <span class="word" style="animation-delay:0.6s">Your </span>
+            <span class="word" style="animation-delay:0.7s">health.</span><br>
+            <span class="gradient-text">
+                <span class="word" style="animation-delay:0.85s">Intelligently </span>
+                <span class="word" style="animation-delay:0.95s">decoded.</span>
+            </span>
         </h1>
 
         <p class="hero-sub">
@@ -1270,7 +1783,7 @@
             <div class="device-glow device-glow-2"></div>
             <div class="device-glow device-glow-3"></div>
 
-            <div class="phone-frame">
+            <div class="phone-frame" id="phoneFrame">
                 <div class="phone-screen">
                     <div class="phone-notch"></div>
                     <div class="phone-content">
@@ -1279,35 +1792,35 @@
                             <span>Here's your day at a glance</span>
                         </div>
                         <div class="phone-score">
-                            <div class="phone-score-value">87</div>
+                            <div class="phone-score-value" data-count="87">0</div>
                             <div class="phone-score-label">Readiness Score</div>
                         </div>
                         <div class="phone-metrics">
                             <div class="phone-metric">
-                                <div class="phone-metric-icon" style="color: #e87e9a;">&#9829;</div>
-                                <div class="phone-metric-val" style="color: #e87e9a;">62</div>
+                                <div class="phone-metric-icon" style="color:#e87e9a;">&#9829;</div>
+                                <div class="phone-metric-val" style="color:#e87e9a;" data-count="62">0</div>
                                 <div class="phone-metric-label">RHR</div>
                             </div>
                             <div class="phone-metric">
-                                <div class="phone-metric-icon" style="color: #56bfb5;">&#9649;</div>
-                                <div class="phone-metric-val" style="color: #56bfb5;">48ms</div>
+                                <div class="phone-metric-icon" style="color:#56bfb5;">&#9649;</div>
+                                <div class="phone-metric-val" style="color:#56bfb5;" data-count="48" data-suffix="ms">0</div>
                                 <div class="phone-metric-label">HRV</div>
                             </div>
                             <div class="phone-metric">
-                                <div class="phone-metric-icon" style="color: #7c6ef0;">&#9790;</div>
-                                <div class="phone-metric-val" style="color: #7c6ef0;">7.5h</div>
+                                <div class="phone-metric-icon" style="color:#7c6ef0;">&#9790;</div>
+                                <div class="phone-metric-val" style="color:#7c6ef0;">7.5h</div>
                                 <div class="phone-metric-label">Sleep</div>
                             </div>
                         </div>
                         <div class="phone-card-mini">
-                            <div class="phone-card-mini-icon" style="background: rgba(124,110,240,0.12); color: var(--accent);">&#9889;</div>
+                            <div class="phone-card-mini-icon" style="background:rgba(124,110,240,0.12);color:var(--accent);">&#9889;</div>
                             <div class="phone-card-mini-text">
                                 <h4>Upper Body Strength</h4>
                                 <p>45 min &middot; Moderate intensity</p>
                             </div>
                         </div>
                         <div class="phone-card-mini">
-                            <div class="phone-card-mini-icon" style="background: rgba(86,191,181,0.12); color: var(--accent3);">&#127811;</div>
+                            <div class="phone-card-mini-icon" style="background:rgba(86,191,181,0.12);color:var(--accent3);">&#127811;</div>
                             <div class="phone-card-mini-text">
                                 <h4>Nutrition Plan</h4>
                                 <p>2,400 kcal &middot; 160g protein</p>
@@ -1346,39 +1859,44 @@
     <!-- Features Bento Grid -->
     <section id="features">
         <div class="reveal">
-            <div class="section-label" style="color: var(--accent);">Features</div>
+            <div class="section-label" style="color:var(--accent);">Features</div>
             <div class="section-title">Everything you need.<br>Nothing you don't.</div>
             <div class="section-desc">Six powerful modules working together to give you a complete picture of your health and fitness journey.</div>
         </div>
 
         <div class="bento-grid">
-            <div class="bento-card large reveal reveal-delay-1">
-                <div class="card-glow" style="background: rgba(124,110,240,0.15);"></div>
-                <div class="bento-card-icon" style="background: rgba(124,110,240,0.12); color: var(--accent);">&#10024;</div>
+            <div class="bento-card large reveal reveal-delay-1" data-tilt>
+                <div class="card-highlight"></div>
+                <div class="card-glow" style="background:rgba(124,110,240,0.15);"></div>
+                <div class="bento-card-icon" style="background:rgba(124,110,240,0.12);color:var(--accent);">&#10024;</div>
                 <h3>Avela AI Coach</h3>
                 <p>Your personal AI health companion. Get real-time coaching, personalized briefings, and intelligent insights based on your unique health profile. Powered by on-device Apple Intelligence or cloud AI.</p>
             </div>
-            <div class="bento-card reveal reveal-delay-2">
-                <div class="card-glow" style="background: rgba(86,191,181,0.15);"></div>
-                <div class="bento-card-icon" style="background: rgba(86,191,181,0.12); color: var(--accent3);">&#127919;</div>
+            <div class="bento-card reveal reveal-delay-2" data-tilt>
+                <div class="card-highlight"></div>
+                <div class="card-glow" style="background:rgba(86,191,181,0.15);"></div>
+                <div class="bento-card-icon" style="background:rgba(86,191,181,0.12);color:var(--accent3);">&#127919;</div>
                 <h3>Readiness Score</h3>
                 <p>Know exactly how ready your body is each morning. Built from sleep, HRV, resting heart rate, and recovery data.</p>
             </div>
-            <div class="bento-card reveal reveal-delay-1">
-                <div class="card-glow" style="background: rgba(232,126,154,0.15);"></div>
-                <div class="bento-card-icon" style="background: rgba(232,126,154,0.12); color: var(--accent2);">&#9829;</div>
+            <div class="bento-card reveal reveal-delay-1" data-tilt>
+                <div class="card-highlight"></div>
+                <div class="card-glow" style="background:rgba(232,126,154,0.15);"></div>
+                <div class="bento-card-icon" style="background:rgba(232,126,154,0.12);color:var(--accent2);">&#9829;</div>
                 <h3>Recovery Monitoring</h3>
                 <p>Track your recovery in real-time with HRV trends, resting heart rate analysis, and component-level scoring.</p>
             </div>
-            <div class="bento-card reveal reveal-delay-2">
-                <div class="card-glow" style="background: rgba(110,168,240,0.15);"></div>
-                <div class="bento-card-icon" style="background: rgba(110,168,240,0.12); color: var(--accent4);">&#9889;</div>
+            <div class="bento-card reveal reveal-delay-2" data-tilt>
+                <div class="card-highlight"></div>
+                <div class="card-glow" style="background:rgba(110,168,240,0.15);"></div>
+                <div class="bento-card-icon" style="background:rgba(110,168,240,0.12);color:var(--accent4);">&#9889;</div>
                 <h3>Smart Workouts</h3>
                 <p>AI-generated workout plans that adapt to your fitness level, goals, and current readiness. Strength, cardio, HIIT, mobility — all personalized.</p>
             </div>
-            <div class="bento-card large reveal reveal-delay-3">
-                <div class="card-glow" style="background: rgba(86,191,181,0.15);"></div>
-                <div class="bento-card-icon" style="background: rgba(86,191,181,0.12); color: var(--accent3);">&#9790;</div>
+            <div class="bento-card large reveal reveal-delay-3" data-tilt>
+                <div class="card-highlight"></div>
+                <div class="card-glow" style="background:rgba(86,191,181,0.15);"></div>
+                <div class="bento-card-icon" style="background:rgba(86,191,181,0.12);color:var(--accent3);">&#9790;</div>
                 <h3>Deep Sleep Insights</h3>
                 <p>Go beyond hours in bed. Vela analyzes sleep efficiency, quality scores, and patterns to help you understand and improve your rest. See how your sleep directly impacts your readiness and recovery.</p>
             </div>
@@ -1388,7 +1906,7 @@
     <div class="divider"></div>
 
     <!-- Statement -->
-    <div class="statement reveal">
+    <div class="statement reveal-scale">
         <h2>Health data is complex.<br>Your daily plan <em>shouldn't be</em>.</h2>
     </div>
 
@@ -1398,9 +1916,9 @@
     <div class="feature-showcase" id="health">
         <!-- Readiness -->
         <div class="feature-row">
-            <div class="feature-text reveal">
+            <div class="feature-text reveal-left">
                 <div class="feature-number">01</div>
-                <div class="section-label" style="color: var(--accent3);">Readiness</div>
+                <div class="section-label" style="color:var(--accent3);">Readiness</div>
                 <h3>Start every day with clarity</h3>
                 <p>Your Readiness Score synthesizes sleep quality, heart rate variability, resting heart rate, and recovery into a single, actionable number. Green means go hard. Yellow means train smart. Red means rest and recover.</p>
                 <div class="feature-tags">
@@ -1410,22 +1928,14 @@
                     <span class="feature-tag">RHR Trends</span>
                 </div>
             </div>
-            <div class="feature-visual reveal reveal-delay-2">
+            <div class="feature-visual reveal-right reveal-delay-2">
                 <div class="visual-card">
                     <div class="visual-ring" data-value="87">
                         <svg viewBox="0 0 180 180">
                             <circle class="bg" cx="90" cy="90" r="80"/>
                             <circle class="fill-ring" cx="90" cy="90" r="80" stroke="url(#grad1)" style="--offset: 67;"/>
                         </svg>
-                        <defs hidden>
-                            <svg><defs>
-                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#56bfb5"/>
-                                    <stop offset="100%" style="stop-color:#7c6ef0"/>
-                                </linearGradient>
-                            </defs></svg>
-                        </defs>
-                        <div class="visual-ring-value" style="color: var(--accent3);">87</div>
+                        <div class="visual-ring-value" style="color:var(--accent3);">87</div>
                     </div>
                     <div class="visual-ring-label">Your body is ready to perform</div>
                 </div>
@@ -1434,9 +1944,9 @@
 
         <!-- Sleep -->
         <div class="feature-row reverse">
-            <div class="feature-text reveal">
+            <div class="feature-text reveal-right">
                 <div class="feature-number">02</div>
-                <div class="section-label" style="color: var(--accent4);">Sleep</div>
+                <div class="section-label" style="color:var(--accent4);">Sleep</div>
                 <h3>Unlock the power of rest</h3>
                 <p>See your sleep architecture come alive. Duration, efficiency, quality score, and weekly trends — all visualized to help you build the habits that lead to deeper, more restorative sleep.</p>
                 <div class="feature-tags">
@@ -1446,23 +1956,23 @@
                     <span class="feature-tag">Weekly Trends</span>
                 </div>
             </div>
-            <div class="feature-visual reveal reveal-delay-2">
+            <div class="feature-visual reveal-left reveal-delay-2">
                 <div class="visual-card">
                     <div class="sleep-bars" data-animate>
-                        <div class="sleep-bar" style="--h: 75%; background: linear-gradient(to top, rgba(110,168,240,0.3), rgba(110,168,240,0.8));"></div>
-                        <div class="sleep-bar" style="--h: 90%; background: linear-gradient(to top, rgba(110,168,240,0.3), rgba(110,168,240,0.8));"></div>
-                        <div class="sleep-bar" style="--h: 60%; background: linear-gradient(to top, rgba(232,126,154,0.3), rgba(232,126,154,0.6));"></div>
-                        <div class="sleep-bar" style="--h: 85%; background: linear-gradient(to top, rgba(110,168,240,0.3), rgba(110,168,240,0.8));"></div>
-                        <div class="sleep-bar" style="--h: 95%; background: linear-gradient(to top, rgba(86,191,181,0.3), rgba(86,191,181,0.8));"></div>
-                        <div class="sleep-bar" style="--h: 70%; background: linear-gradient(to top, rgba(110,168,240,0.3), rgba(110,168,240,0.8));"></div>
-                        <div class="sleep-bar" style="--h: 88%; background: linear-gradient(to top, rgba(110,168,240,0.3), rgba(110,168,240,0.8));"></div>
+                        <div class="sleep-bar" style="--h:75%;background:linear-gradient(to top,rgba(110,168,240,0.3),rgba(110,168,240,0.8));"></div>
+                        <div class="sleep-bar" style="--h:90%;background:linear-gradient(to top,rgba(110,168,240,0.3),rgba(110,168,240,0.8));"></div>
+                        <div class="sleep-bar" style="--h:60%;background:linear-gradient(to top,rgba(232,126,154,0.3),rgba(232,126,154,0.6));"></div>
+                        <div class="sleep-bar" style="--h:85%;background:linear-gradient(to top,rgba(110,168,240,0.3),rgba(110,168,240,0.8));"></div>
+                        <div class="sleep-bar" style="--h:95%;background:linear-gradient(to top,rgba(86,191,181,0.3),rgba(86,191,181,0.8));"></div>
+                        <div class="sleep-bar" style="--h:70%;background:linear-gradient(to top,rgba(110,168,240,0.3),rgba(110,168,240,0.8));"></div>
+                        <div class="sleep-bar" style="--h:88%;background:linear-gradient(to top,rgba(110,168,240,0.3),rgba(110,168,240,0.8));"></div>
                     </div>
                     <div class="sleep-days">
                         <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
                     </div>
-                    <div style="text-align: center; margin-top: 20px;">
-                        <div style="font-size: 32px; font-weight: 800; color: var(--accent4);">7h 32m</div>
-                        <div style="font-size: 13px; color: var(--text2);">Weekly Average</div>
+                    <div style="text-align:center;margin-top:20px;">
+                        <div class="counter-value" data-count-float="7.5" data-suffix="h" style="font-size:32px;font-weight:800;color:var(--accent4);">0h</div>
+                        <div style="font-size:13px;color:var(--text2);">Weekly Average</div>
                     </div>
                 </div>
             </div>
@@ -1470,9 +1980,9 @@
 
         <!-- Daily Plan -->
         <div class="feature-row">
-            <div class="feature-text reveal">
+            <div class="feature-text reveal-left">
                 <div class="feature-number">03</div>
-                <div class="section-label" style="color: var(--accent2);">Daily Plan</div>
+                <div class="section-label" style="color:var(--accent2);">Daily Plan</div>
                 <h3>One plan. Perfectly yours.</h3>
                 <p>Every morning, Vela generates a complete daily plan tailored to your current state. Workouts calibrated to your readiness, nutrition matched to your goals, and daily habits to keep you on track.</p>
                 <div class="feature-tags">
@@ -1482,28 +1992,28 @@
                     <span class="feature-tag">Macro Tracking</span>
                 </div>
             </div>
-            <div class="feature-visual reveal reveal-delay-2">
+            <div class="feature-visual reveal-right reveal-delay-2">
                 <div class="visual-card">
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <div style="background: rgba(124,110,240,0.08); border: 1px solid rgba(124,110,240,0.15); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-                            <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(124,110,240,0.15); display: flex; align-items: center; justify-content: center; font-size: 20px;">&#128170;</div>
-                            <div>
-                                <div style="font-weight: 600; font-size: 14px;">Push Day — Chest & Shoulders</div>
-                                <div style="font-size: 12px; color: var(--text2);">50 min &middot; High Intensity</div>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <div class="plan-item" style="background:rgba(124,110,240,0.08);border:1px solid rgba(124,110,240,0.15);">
+                            <div class="plan-item-icon" style="background:rgba(124,110,240,0.15);">&#128170;</div>
+                            <div class="plan-item-text">
+                                <h4>Push Day — Chest & Shoulders</h4>
+                                <p>50 min &middot; High Intensity</p>
                             </div>
                         </div>
-                        <div style="background: rgba(86,191,181,0.08); border: 1px solid rgba(86,191,181,0.15); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-                            <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(86,191,181,0.15); display: flex; align-items: center; justify-content: center; font-size: 20px;">&#127811;</div>
-                            <div>
-                                <div style="font-weight: 600; font-size: 14px;">High Protein Meal Plan</div>
-                                <div style="font-size: 12px; color: var(--text2);">2,400 kcal &middot; P 160g &middot; C 280g &middot; F 75g</div>
+                        <div class="plan-item" style="background:rgba(86,191,181,0.08);border:1px solid rgba(86,191,181,0.15);">
+                            <div class="plan-item-icon" style="background:rgba(86,191,181,0.15);">&#127811;</div>
+                            <div class="plan-item-text">
+                                <h4>High Protein Meal Plan</h4>
+                                <p>2,400 kcal &middot; P 160g &middot; C 280g &middot; F 75g</p>
                             </div>
                         </div>
-                        <div style="background: rgba(232,126,154,0.08); border: 1px solid rgba(232,126,154,0.15); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-                            <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(232,126,154,0.15); display: flex; align-items: center; justify-content: center; font-size: 20px;">&#10004;</div>
-                            <div>
-                                <div style="font-weight: 600; font-size: 14px;">Daily Habits</div>
-                                <div style="font-size: 12px; color: var(--text2);">3 of 5 completed</div>
+                        <div class="plan-item" style="background:rgba(232,126,154,0.08);border:1px solid rgba(232,126,154,0.15);">
+                            <div class="plan-item-icon" style="background:rgba(232,126,154,0.15);">&#10004;</div>
+                            <div class="plan-item-text">
+                                <h4>Daily Habits</h4>
+                                <p>3 of 5 completed</p>
                             </div>
                         </div>
                     </div>
@@ -1517,12 +2027,12 @@
     <!-- Avela AI Section -->
     <section class="avela-section" id="avela">
         <div class="reveal">
-            <div class="section-label" style="color: var(--accent2);">Meet Avela</div>
+            <div class="section-label" style="color:var(--accent2);">Meet Avela</div>
             <div class="section-title">Your AI coach.<br>Always on. Always learning.</div>
             <div class="section-desc">Avela understands your health data, your goals, and your life. Ask anything — from workout advice to recovery strategies — and get intelligent, personalized responses.</div>
         </div>
 
-        <div class="avela-demo reveal reveal-delay-2">
+        <div class="avela-demo reveal-scale reveal-delay-2" id="avelaDemo">
             <div class="avela-header">
                 <div class="avela-avatar">&#10024;</div>
                 <div>
@@ -1530,7 +2040,7 @@
                     <div class="avela-status">Online &middot; Analyzing your data</div>
                 </div>
             </div>
-            <div class="avela-chat">
+            <div class="avela-chat" id="avelaChat">
                 <div class="chat-msg user">How's my recovery looking today?</div>
                 <div class="chat-msg ai">Your recovery is strong at 82%. HRV is trending up — 48ms vs your 7-day average of 42ms. Resting heart rate is 62 bpm, well within your optimal range. You're clear for a high-intensity session today.</div>
                 <div class="chat-msg user">Should I do legs or upper body?</div>
@@ -1548,42 +2058,42 @@
     <!-- Health Metrics -->
     <section class="metrics-section">
         <div class="reveal">
-            <div class="section-label" style="color: var(--accent3);">Health Dashboard</div>
+            <div class="section-label" style="color:var(--accent3);">Health Dashboard</div>
             <div class="section-title">Your vitals.<br>Beautifully tracked.</div>
             <div class="section-desc">Every heartbeat, every breath, every moment of rest — captured and analyzed to give you a deeper understanding of your body.</div>
         </div>
 
-        <div class="metrics-grid" style="margin-top: 64px;">
+        <div class="metrics-grid" style="margin-top:64px;">
             <div class="metric-card reveal reveal-delay-1">
-                <div class="metric-icon" style="color: var(--accent2);">&#9829;</div>
-                <div class="metric-value" style="color: var(--accent2);">62</div>
+                <div class="metric-icon" style="color:var(--accent2);">&#9829;</div>
+                <div class="metric-value" style="color:var(--accent2);" data-count="62">0</div>
                 <div class="metric-label">Resting HR</div>
                 <div class="metric-bar">
-                    <div class="metric-bar-fill" style="--fill: 62%; background: linear-gradient(90deg, var(--accent2), rgba(232,126,154,0.4));"></div>
+                    <div class="metric-bar-fill" style="--fill:62%;background:linear-gradient(90deg,var(--accent2),rgba(232,126,154,0.4));"></div>
                 </div>
             </div>
             <div class="metric-card reveal reveal-delay-2">
-                <div class="metric-icon" style="color: var(--accent3);">&#9649;</div>
-                <div class="metric-value" style="color: var(--accent3);">48<small style="font-size:16px">ms</small></div>
+                <div class="metric-icon" style="color:var(--accent3);">&#9649;</div>
+                <div class="metric-value" style="color:var(--accent3);" data-count="48" data-suffix="ms">0</div>
                 <div class="metric-label">HRV</div>
                 <div class="metric-bar">
-                    <div class="metric-bar-fill" style="--fill: 72%; background: linear-gradient(90deg, var(--accent3), rgba(86,191,181,0.4));"></div>
+                    <div class="metric-bar-fill" style="--fill:72%;background:linear-gradient(90deg,var(--accent3),rgba(86,191,181,0.4));"></div>
                 </div>
             </div>
             <div class="metric-card reveal reveal-delay-3">
-                <div class="metric-icon" style="color: var(--accent4);">&#127748;</div>
-                <div class="metric-value" style="color: var(--accent4);">7.5<small style="font-size:16px">h</small></div>
+                <div class="metric-icon" style="color:var(--accent4);">&#127748;</div>
+                <div class="metric-value" style="color:var(--accent4);" data-count-float="7.5" data-suffix="h">0</div>
                 <div class="metric-label">Sleep</div>
                 <div class="metric-bar">
-                    <div class="metric-bar-fill" style="--fill: 85%; background: linear-gradient(90deg, var(--accent4), rgba(110,168,240,0.4));"></div>
+                    <div class="metric-bar-fill" style="--fill:85%;background:linear-gradient(90deg,var(--accent4),rgba(110,168,240,0.4));"></div>
                 </div>
             </div>
             <div class="metric-card reveal reveal-delay-4">
-                <div class="metric-icon" style="color: var(--accent);">&#128293;</div>
-                <div class="metric-value" style="color: var(--accent);">520<small style="font-size:16px">cal</small></div>
+                <div class="metric-icon" style="color:var(--accent);">&#128293;</div>
+                <div class="metric-value" style="color:var(--accent);" data-count="520" data-suffix="cal">0</div>
                 <div class="metric-label">Burned</div>
                 <div class="metric-bar">
-                    <div class="metric-bar-fill" style="--fill: 65%; background: linear-gradient(90deg, var(--accent), rgba(124,110,240,0.4));"></div>
+                    <div class="metric-bar-fill" style="--fill:65%;background:linear-gradient(90deg,var(--accent),rgba(124,110,240,0.4));"></div>
                 </div>
             </div>
         </div>
@@ -1592,7 +2102,7 @@
     <div class="divider"></div>
 
     <!-- Second Statement -->
-    <div class="statement reveal">
+    <div class="statement reveal-scale">
         <h2>Built for people who take their health <em>seriously</em>.</h2>
     </div>
 
@@ -1633,7 +2143,7 @@
     </footer>
 
     <!-- SVG Gradients -->
-    <svg width="0" height="0" style="position: absolute;">
+    <svg width="0" height="0" style="position:absolute;">
         <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style="stop-color:#56bfb5"/>
@@ -1643,75 +2153,260 @@
     </svg>
 
     <script>
+        // ===== Page Loader =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('pageLoader').classList.add('hide');
+            }, 800);
+        });
+
+        // ===== Scroll Progress Bar =====
+        const scrollProgress = document.getElementById('scrollProgress');
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        }
+
+        // ===== Cursor Glow =====
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorGlow.classList.add('visible');
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.classList.remove('visible');
+        });
+
+        function animateCursorGlow() {
+            glowX += (mouseX - glowX) * 0.08;
+            glowY += (mouseY - glowY) * 0.08;
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+            requestAnimationFrame(animateCursorGlow);
+        }
+        animateCursorGlow();
+
+        // ===== Card Mouse-Follow Highlight =====
+        document.querySelectorAll('[data-tilt]').forEach(card => {
+            const highlight = card.querySelector('.card-highlight');
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                if (highlight) {
+                    highlight.style.left = x + 'px';
+                    highlight.style.top = y + 'px';
+                }
+                // Subtle tilt
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -3;
+                const rotateY = ((x - centerX) / centerX) * 3;
+                card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
         // ===== Scroll Reveal =====
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
+
+                    // Trigger counter animations
+                    entry.target.querySelectorAll('[data-count]').forEach(el => {
+                        if (!el.dataset.animated) animateCounter(el);
+                    });
+                    entry.target.querySelectorAll('[data-count-float]').forEach(el => {
+                        if (!el.dataset.animated) animateCounterFloat(el);
+                    });
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        document.querySelectorAll('.reveal, .visual-ring, .sleep-bars, .metric-card').forEach(el => {
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .visual-ring, .sleep-bars, .metric-card').forEach(el => {
             observer.observe(el);
         });
 
+        // ===== Chat Message Animation =====
+        const chatObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const msgs = entry.target.querySelectorAll('.chat-msg');
+                    msgs.forEach((msg, i) => {
+                        setTimeout(() => {
+                            msg.classList.add('animated');
+                        }, i * 400);
+                    });
+                    chatObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const avelaChat = document.getElementById('avelaChat');
+        if (avelaChat) chatObserver.observe(avelaChat);
+
+        // ===== Counter Animation =====
+        function animateCounter(el) {
+            el.dataset.animated = 'true';
+            const target = parseInt(el.dataset.count);
+            const suffix = el.dataset.suffix || '';
+            const duration = 1500;
+            const start = performance.now();
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(eased * target);
+                el.textContent = current + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function animateCounterFloat(el) {
+            el.dataset.animated = 'true';
+            const target = parseFloat(el.dataset.countFloat);
+            const suffix = el.dataset.suffix || '';
+            const duration = 1500;
+            const start = performance.now();
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = (eased * target).toFixed(1);
+                el.textContent = current + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Also animate the phone score counter
+        setTimeout(() => {
+            document.querySelectorAll('.phone-score-value[data-count]').forEach(el => animateCounter(el));
+            document.querySelectorAll('.phone-metric-val[data-count]').forEach(el => animateCounter(el));
+        }, 2400);
+
         // ===== Particles =====
         const particlesContainer = document.getElementById('particles');
-        const particleCount = 40;
-
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.width = (Math.random() * 2 + 1) + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.opacity = Math.random() * 0.4 + 0.1;
-            particle.style.animation = `particleFloat ${Math.random() * 10 + 10}s linear infinite`;
-            particle.style.animationDelay = `-${Math.random() * 10}s`;
+            const size = Math.random() * 3 + 1;
+            const colors = ['rgba(124,110,240,0.4)', 'rgba(232,126,154,0.3)', 'rgba(86,191,181,0.3)', 'rgba(110,168,240,0.3)'];
+            particle.style.cssText = `
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                width: ${size}px;
+                height: ${size}px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                box-shadow: 0 0 ${size * 3}px ${colors[Math.floor(Math.random() * colors.length)]};
+                animation: particleDrift${i % 3} ${Math.random() * 15 + 15}s linear infinite;
+                animation-delay: -${Math.random() * 15}s;
+            `;
             particlesContainer.appendChild(particle);
         }
 
-        // Add particle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes particleFloat {
+        // Add particle animations
+        const particleStyles = document.createElement('style');
+        particleStyles.textContent = `
+            @keyframes particleDrift0 {
                 0% { transform: translate(0, 0) scale(1); opacity: 0; }
-                10% { opacity: var(--particle-opacity, 0.3); }
-                90% { opacity: var(--particle-opacity, 0.3); }
-                100% { transform: translate(${Math.random() > 0.5 ? '' : '-'}${Math.random() * 200}px, -${Math.random() * 600 + 400}px) scale(0.5); opacity: 0; }
+                5% { opacity: 0.6; }
+                95% { opacity: 0.6; }
+                100% { transform: translate(${80}px, -${800}px) scale(0.3); opacity: 0; }
+            }
+            @keyframes particleDrift1 {
+                0% { transform: translate(0, 0) scale(1); opacity: 0; }
+                5% { opacity: 0.4; }
+                95% { opacity: 0.4; }
+                100% { transform: translate(-${60}px, -${700}px) scale(0.2); opacity: 0; }
+            }
+            @keyframes particleDrift2 {
+                0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+                5% { opacity: 0.5; }
+                50% { transform: translate(${40}px, -${400}px) scale(1); }
+                95% { opacity: 0.5; }
+                100% { transform: translate(-${30}px, -${900}px) scale(0.3); opacity: 0; }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(particleStyles);
 
-        // ===== Parallax on Scroll =====
-        const hero = document.querySelector('.hero-device');
-        let ticking = false;
+        // ===== Navbar Hide/Show on Scroll =====
+        let lastScrollY = 0;
+        let navHideTimer;
+        const navbar = document.getElementById('navbar');
 
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const scrolled = window.scrollY;
-                    if (hero && scrolled < window.innerHeight) {
-                        hero.style.transform = `translateY(${scrolled * 0.15}px)`;
-                    }
-                    // Navbar background
-                    const nav = document.querySelector('nav');
-                    if (scrolled > 50) {
-                        nav.style.background = 'rgba(5,5,7,0.92)';
-                    } else {
-                        nav.style.background = 'rgba(5,5,7,0.72)';
-                    }
-                    ticking = false;
-                });
-                ticking = true;
+        function handleScroll() {
+            updateProgress();
+
+            const currentScrollY = window.scrollY;
+
+            // Navbar hide/show
+            if (currentScrollY > 200) {
+                if (currentScrollY > lastScrollY + 5) {
+                    navbar.classList.add('nav-hidden');
+                } else if (currentScrollY < lastScrollY - 5) {
+                    navbar.classList.remove('nav-hidden');
+                }
+            } else {
+                navbar.classList.remove('nav-hidden');
             }
-        });
 
-        // ===== Smooth scroll for anchor links =====
+            // Navbar background
+            navbar.style.background = currentScrollY > 50
+                ? 'rgba(5,5,7,0.92)'
+                : 'rgba(5,5,7,0.72)';
+
+            // Parallax hero device
+            const heroDevice = document.querySelector('.hero-device');
+            if (heroDevice && currentScrollY < window.innerHeight) {
+                const parallax = currentScrollY * 0.2;
+                const scale = 1 - currentScrollY * 0.0003;
+                const opacity = 1 - currentScrollY * 0.001;
+                heroDevice.style.transform = `translateY(${parallax}px) scale(${Math.max(scale, 0.85)})`;
+                heroDevice.style.opacity = Math.max(opacity, 0);
+            }
+
+            // Parallax for statements
+            document.querySelectorAll('.statement').forEach(statement => {
+                const rect = statement.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                    const translateY = (progress - 0.5) * -30;
+                    statement.querySelector('h2').style.transform = `translateY(${translateY}px)`;
+                }
+            });
+
+            lastScrollY = currentScrollY;
+        }
+
+        let scrollTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                requestAnimationFrame(() => {
+                    handleScroll();
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        }, { passive: true });
+
+        // ===== Smooth Scroll =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     e.preventDefault();
@@ -1719,6 +2414,21 @@
                 }
             });
         });
+
+        // ===== Phone 3D Tilt =====
+        const phoneFrame = document.getElementById('phoneFrame');
+        if (phoneFrame) {
+            phoneFrame.addEventListener('mousemove', (e) => {
+                const rect = phoneFrame.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                phoneFrame.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale(1.02)`;
+            });
+
+            phoneFrame.addEventListener('mouseleave', () => {
+                phoneFrame.style.transform = '';
+            });
+        }
     </script>
 </body>
 </html>
