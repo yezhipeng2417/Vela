@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vela - Privacy Policy</title>
+    <style>
+        :root {
+            --bg: #0e0e12;
+            --card: #1a1a24;
+            --border: rgba(255,255,255,0.06);
+            --accent: #56bfb5;
+            --accent2: #7c6ef0;
+            --text: #e8e6f0;
+            --text2: #9490a8;
+            --glow: rgba(86,191,181,0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(14,14,18,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+        .topbar a {
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .topbar a:hover { color: var(--text); }
+        .topbar .sep { color: var(--text2); opacity: 0.4; }
+        .topbar .current { color: var(--accent); font-weight: 500; }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .updated {
+            color: var(--text2);
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        .section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .section h2 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        .section p, .section li {
+            font-size: 15px;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+        .section p + p { margin-top: 12px; }
+        .section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .section ul li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .section ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+        }
+        .footer {
+            text-align: center;
+            color: var(--text2);
+            font-size: 13px;
+            margin-top: 32px;
+        }
+        .footer a {
+            color: var(--accent2);
+            text-decoration: none;
+        }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <a href="index.html">Vela</a>
+        <span class="sep">/</span>
+        <span class="current">Privacy Policy</span>
+    </div>
+
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: March 2026</p>
+
+        <div class="section">
+            <h2>1. Information We Collect</h2>
+            <p>Vela collects the following information:</p>
+            <ul>
+                <li><strong>Account information</strong>: When you sign in with Apple, we receive your Apple ID, name (optional), and email (optional). This information is stored securely on your device using the iOS Keychain.</li>
+                <li><strong>Profile information</strong>: Fitness profile data you provide during onboarding, including age, body metrics, fitness level, dietary preferences, and training schedule.</li>
+                <li><strong>Health data</strong>: With your permission, Vela reads health and fitness data from Apple HealthKit (see Section 2 for details).</li>
+                <li><strong>Usage data</strong>: Anonymous crash reports and diagnostics to improve app stability.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. HealthKit Data</h2>
+            <p>With your explicit permission, Vela reads the following data from Apple HealthKit:</p>
+            <ul>
+                <li>Heart rate variability (HRV), heart rate, and resting heart rate</li>
+                <li>Sleep analysis</li>
+                <li>Blood oxygen saturation</li>
+                <li>Respiratory rate and wrist temperature</li>
+                <li>Active energy burned and step count</li>
+                <li>Workout records</li>
+                <li>Body composition (weight, height, BMI, body fat percentage)</li>
+            </ul>
+            <p>Your HealthKit data is never sold, shared with third parties, or used for advertising. It is processed solely on your device and within the app to provide personalized fitness insights. You can revoke HealthKit access at any time via Settings &gt; Privacy &amp; Security &gt; Health.</p>
+        </div>
+
+        <div class="section">
+            <h2>3. How We Use Your Data</h2>
+            <p>We use your data to:</p>
+            <ul>
+                <li>Provide personalized fitness plans, recovery scores, and coaching</li>
+                <li>Generate AI-powered recommendations using your fitness profile</li>
+                <li>Synchronize your data across devices (when cloud backup is enabled)</li>
+                <li>Improve app stability and performance through anonymized diagnostics</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>4. Data Storage and Security</h2>
+            <ul>
+                <li><strong>Local storage</strong>: Your data is primarily stored on your device using encrypted local databases. Account credentials are stored in the iOS Keychain.</li>
+                <li><strong>Cloud backup (optional)</strong>: When enabled via Sign in with Apple, your data is encrypted in transit (TLS) and stored on secure cloud servers with row-level security policies. Only you can access your data.</li>
+                <li>We do not store HealthKit data on our servers. HealthKit data is processed locally on your device.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>5. Third-Party Services</h2>
+            <p>Vela uses the following third-party services:</p>
+            <ul>
+                <li><strong>DeepSeek API</strong>: Your fitness profile (not HealthKit data) may be sent to DeepSeek servers to generate AI coaching content. DeepSeek processes data according to its own privacy policy.</li>
+                <li><strong>Apple HealthKit</strong>: Governed by Apple's privacy policy. Vela complies fully with Apple's HealthKit guidelines.</li>
+                <li><strong>Apple Intelligence</strong>: Used for on-device AI processing where available.</li>
+                <li><strong>Sentry</strong>: Used for anonymous crash reporting and error tracking to improve app stability.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>6. Data Sharing</h2>
+            <p>We do not sell your personal data. We do not share your data with third parties for marketing or advertising purposes. Data is only shared with third-party service providers as described in Section 5, solely to provide the app's features.</p>
+        </div>
+
+        <div class="section">
+            <h2>7. Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li><strong>Access your data</strong>: All your data is visible within the app.</li>
+                <li><strong>Delete your account</strong>: You can delete your account and all associated data from Settings &gt; Account &gt; Delete Account.</li>
+                <li><strong>Revoke HealthKit access</strong>: Via your device's Settings &gt; Privacy &amp; Security &gt; Health.</li>
+                <li><strong>Disconnect cloud backup</strong>: Via the app's Cloud Backup settings.</li>
+                <li><strong>Export your data</strong>: Your fitness plans and profile data can be backed up via the cloud backup feature.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>8. Children's Privacy</h2>
+            <p>Vela is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have collected data from a child under 13, we will take steps to delete such information promptly.</p>
+        </div>
+
+        <div class="section">
+            <h2>9. Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. Changes will be posted within the app. Your continued use of the app after changes are posted constitutes your acceptance of the updated policy.</p>
+        </div>
+
+        <div class="section">
+            <h2>10. Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:zhipengye927@gmail.com" style="color:var(--accent)">zhipengye927@gmail.com</a> or through the in-app feedback feature.</p>
+        </div>
+
+        <div class="footer">
+            <a href="terms.html">Terms of Use</a> &middot; <a href="index.html">Back to Vela</a>
+        </div>
+    </div>
+</body>
+</html>
