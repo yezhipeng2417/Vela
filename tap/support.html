@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAP — Support</title>
+    <meta name="description" content="Get help with TAP Voice Typing Keyboard. FAQs, troubleshooting, and contact support.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050507; --surface: #0a0a0f; --text: #f5f5f7; --text2: #86868b; --text3: #48484a; --accent: #0af0b0; --accent2: #0a84ff; --card-bg: rgba(255,255,255,0.03); --card-border: rgba(255,255,255,0.06); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(5,5,7,0.8); border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .nav-logo { font-size: 18px; font-weight: 700; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        .nav-logo-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .nav-back { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.3s; }
+        .nav-back:hover { color: var(--text); }
+
+        .container { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; }
+        .page-label { font-size: 14px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+        .page-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px; }
+        .page-sub { font-size: 17px; color: var(--text2); line-height: 1.6; margin-bottom: 56px; }
+
+        /* Contact cards */
+        .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 64px; }
+        .contact-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 28px 24px; text-decoration: none; color: var(--text);
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
+        }
+        .contact-card:hover {
+            border-color: rgba(10,240,176,0.15);
+            box-shadow: 0 8px 30px rgba(10,240,176,0.06);
+            transform: translateY(-3px);
+        }
+        .contact-icon { font-size: 28px; }
+        .contact-title { font-size: 16px; font-weight: 700; }
+        .contact-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+        /* FAQ */
+        .faq-section h2 {
+            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .faq-question {
+            width: 100%; background: none; border: none; color: var(--text);
+            font-family: inherit; font-size: 16px; font-weight: 600;
+            padding: 20px 0; text-align: left; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .faq-question:hover { color: var(--accent); }
+        .faq-arrow {
+            font-size: 18px; color: var(--text3);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        .faq-item.open .faq-arrow { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+        .faq-answer-inner {
+            padding: 0 0 20px;
+            font-size: 15px; color: var(--text2); line-height: 1.8;
+        }
+        .faq-answer-inner a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(10,240,176,0.2); }
+        .faq-answer-inner a:hover { border-color: var(--accent); }
+        .faq-answer-inner ol, .faq-answer-inner ul { margin: 8px 0 8px 20px; }
+        .faq-answer-inner li { margin-bottom: 4px; }
+
+        /* Troubleshooting */
+        .troubleshoot-section { margin-top: 64px; }
+        .troubleshoot-section h2 {
+            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px;
+        }
+        .tip-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 24px; margin-bottom: 16px;
+        }
+        .tip-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .tip-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
+        .tip-desc ol { margin: 8px 0 0 20px; }
+        .tip-desc li { margin-bottom: 4px; }
+
+        .footer { border-top: 1px solid rgba(255,255,255,0.04); padding: 32px 24px; text-align: center; }
+        .footer-inner { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .footer-left { font-size: 13px; color: var(--text3); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--text2); }
+
+        @media (max-width: 600px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .nav { padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="./" class="nav-logo"><div class="nav-logo-icon">🎙️</div> TAP</a>
+        <a href="./" class="nav-back">&larr; Back to TAP</a>
+    </nav>
+
+    <div class="container">
+        <div class="page-label">Support</div>
+        <h1 class="page-title">How Can We Help?</h1>
+        <p class="page-sub">Find answers to common questions or reach out to us directly.</p>
+
+        <!-- Contact -->
+        <div class="contact-grid">
+            <a href="mailto:nickyezhipeng@gmail.com" class="contact-card">
+                <span class="contact-icon">✉️</span>
+                <span class="contact-title">Email Us</span>
+                <span class="contact-desc">nickyezhipeng@gmail.com<br>We typically respond within 24 hours.</span>
+            </a>
+            <a href="https://github.com/yezhipeng2417/tap-ios/issues" target="_blank" rel="noopener" class="contact-card">
+                <span class="contact-icon">🐛</span>
+                <span class="contact-title">Report a Bug</span>
+                <span class="contact-desc">Open an issue on GitHub with details about the problem.</span>
+            </a>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <button class="faq-question">How do I set up the TAP keyboard? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <ol>
+                        <li>Open the TAP app and complete the onboarding process.</li>
+                        <li>Go to <strong>Settings &gt; General &gt; Keyboard &gt; Keyboards &gt; Add New Keyboard</strong>.</li>
+                        <li>Select <strong>TAP</strong> from the list.</li>
+                        <li>Tap TAP again and enable <strong>Allow Full Access</strong> (required for voice processing).</li>
+                        <li>Switch to the TAP keyboard in any app by tapping the globe icon on your keyboard.</li>
+                    </ol>
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Why does TAP need Full Access? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Full Access is required so the keyboard extension can communicate with the main app for voice recognition and AI text processing. Without it, the keyboard cannot access the microphone or process your speech. TAP does not use Full Access to collect your keystrokes or personal data — all communication happens locally on your device through secure shared storage.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How do I switch languages? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <strong>Quick switch:</strong> Tap the language button on the keyboard to toggle between your two most used languages (default: Chinese and English).<br><br>
+                    <strong>All languages:</strong> Long-press the language button to open the language picker, where you can select from all supported languages.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How does translation work? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Tap the translate button on the keyboard to enable real-time translation. Speak in your current language, and the AI will translate and polish the output into your target language. Tap the translate button again to turn translation off. The translation target can be changed by long-pressing the translate button.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Is my voice data stored or sent to a server? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <strong>Audio is never stored or uploaded.</strong> Speech recognition happens entirely on your device. After your speech is converted to text, the text may be sent to a third-party AI service for polishing (if enabled). The audio itself is discarded immediately. See our <a href="privacy.html">Privacy Policy</a> for full details.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Why is the AI not processing my text? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    AI text processing requires an API key to be configured. Check the following:
+                    <ol>
+                        <li>Open the TAP app and go to <strong>Settings</strong>.</li>
+                        <li>Ensure your API key is entered correctly.</li>
+                        <li>Make sure you have an active internet connection.</li>
+                        <li>If the issue persists, try removing and re-entering your API key.</li>
+                    </ol>
+                    Without an API key, TAP will still transcribe your speech but won't apply AI polishing.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">What is the Personal Dictionary for? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    The Personal Dictionary lets you add proper nouns, brand names, technical terms, and other words that the AI might not recognize correctly. When these words appear in your speech, the AI will use the correct spelling and formatting you've specified. You can manage your dictionary from the <strong>Dictionary</strong> tab in the app.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How do I change the tone of AI output? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Go to <strong>Settings</strong> in the TAP app and select your preferred tone: Adaptive (auto-adjusts based on context), Formal, Casual, Professional, or Friendly. The AI will adjust its polishing style accordingly.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Can I use TAP without an internet connection? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Speech recognition works on-device and does not require internet. However, the AI text polishing feature requires an internet connection to communicate with the AI service. Without internet, TAP will transcribe your speech as-is without AI enhancement.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How do I delete my transcription history? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Open the <strong>History</strong> tab in the TAP app. Swipe left on any entry to delete it individually. All history is stored locally on your device — uninstalling TAP removes all data permanently.
+                </div></div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="troubleshoot-section">
+            <h2>Troubleshooting</h2>
+
+            <div class="tip-card">
+                <div class="tip-title">🎤 Microphone not working</div>
+                <div class="tip-desc">
+                    <ol>
+                        <li>Go to <strong>Settings &gt; Privacy &amp; Security &gt; Microphone</strong> and ensure TAP is enabled.</li>
+                        <li>Go to <strong>Settings &gt; Privacy &amp; Security &gt; Speech Recognition</strong> and ensure TAP is enabled.</li>
+                        <li>Make sure no other app is actively using the microphone.</li>
+                        <li>Try closing and reopening the TAP app.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-title">⌨️ Keyboard not appearing</div>
+                <div class="tip-desc">
+                    <ol>
+                        <li>Go to <strong>Settings &gt; General &gt; Keyboard &gt; Keyboards</strong>.</li>
+                        <li>Check that TAP is listed. If not, tap <strong>Add New Keyboard</strong> and select TAP.</li>
+                        <li>Ensure <strong>Allow Full Access</strong> is turned on for TAP.</li>
+                        <li>Restart your device if the keyboard still doesn't appear.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-title">🔇 No text being recognized</div>
+                <div class="tip-desc">
+                    <ol>
+                        <li>Open the TAP main app at least once — this activates the background voice service.</li>
+                        <li>Speak clearly and at a normal pace.</li>
+                        <li>Check that you've selected the correct language for your speech.</li>
+                        <li>Ensure you're not in an extremely noisy environment.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-title">🐌 AI processing is slow</div>
+                <div class="tip-desc">
+                    AI processing speed depends on your internet connection and the AI service's response time. Try switching to a faster network (Wi-Fi instead of cellular). If the issue persists, the AI service may be experiencing high load — wait a moment and try again.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">&copy; 2026 MoguLabs. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="../">Home</a>
+                <a href="./">TAP</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasOpen = item.classList.contains('open');
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                // Toggle clicked
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
