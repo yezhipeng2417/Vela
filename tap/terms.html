@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAP — Terms of Service</title>
+    <meta name="description" content="Terms of Service for TAP Voice Typing Keyboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050507; --surface: #0a0a0f; --text: #f5f5f7; --text2: #86868b; --text3: #48484a; --accent: #0af0b0; --accent2: #0a84ff; --card-bg: rgba(255,255,255,0.03); --card-border: rgba(255,255,255,0.06); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(5,5,7,0.8); border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .nav-logo { font-size: 18px; font-weight: 700; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        .nav-logo-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .nav-back { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.3s; }
+        .nav-back:hover { color: var(--text); }
+
+        .container { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; }
+        .page-label { font-size: 14px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+        .page-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px; }
+        .page-date { font-size: 14px; color: var(--text3); margin-bottom: 48px; }
+
+        .legal-content h2 { font-size: 22px; font-weight: 700; margin-top: 48px; margin-bottom: 16px; letter-spacing: -0.3px; }
+        .legal-content h3 { font-size: 17px; font-weight: 600; margin-top: 28px; margin-bottom: 10px; color: var(--text); }
+        .legal-content p { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; }
+        .legal-content ul, .legal-content ol { margin: 12px 0 16px 20px; }
+        .legal-content li { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 8px; }
+        .legal-content strong { color: var(--text); font-weight: 600; }
+        .legal-content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(10,240,176,0.2); transition: border-color 0.3s; }
+        .legal-content a:hover { border-color: var(--accent); }
+
+        .highlight-box {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 12px; padding: 20px 24px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; }
+
+        .footer { border-top: 1px solid rgba(255,255,255,0.04); padding: 32px 24px; text-align: center; }
+        .footer-inner { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .footer-left { font-size: 13px; color: var(--text3); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--text2); }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="./" class="nav-logo"><div class="nav-logo-icon">🎙️</div> TAP</a>
+        <a href="./" class="nav-back">&larr; Back to TAP</a>
+    </nav>
+
+    <div class="container">
+        <div class="page-label">Legal</div>
+        <h1 class="page-title">Terms of Service</h1>
+        <p class="page-date">Last updated: March 8, 2025</p>
+
+        <div class="legal-content">
+            <div class="highlight-box">
+                <p><strong>Summary:</strong> TAP is a voice typing tool provided as-is. You retain ownership of your content. We are not liable for AI processing accuracy. Use responsibly and in compliance with applicable laws.</p>
+            </div>
+
+            <h2>1. Acceptance of Terms</h2>
+            <p>By downloading, installing, accessing, or using the TAP application ("App") developed by MoguLabs ("we," "us," or "our"), you ("User" or "you") agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you must not use the App.</p>
+            <p>These Terms constitute a legally binding agreement between you and MoguLabs. We reserve the right to modify these Terms at any time. Your continued use of the App following any modifications constitutes acceptance of the revised Terms.</p>
+
+            <h2>2. Description of Service</h2>
+            <p>TAP is an iOS keyboard extension application that provides:</p>
+            <ul>
+                <li><strong>Voice-to-text conversion:</strong> Using Apple's on-device speech recognition framework to convert spoken words to text</li>
+                <li><strong>AI-powered text processing:</strong> Optionally sending recognized text to a third-party AI service (DeepSeek) for polishing, formatting, and enhancement</li>
+                <li><strong>Real-time translation:</strong> Optionally translating recognized text to another language via AI processing</li>
+                <li><strong>Keyboard extension:</strong> A custom iOS keyboard that integrates voice typing into any application</li>
+                <li><strong>Transcription history:</strong> Local storage of past transcription sessions with usage statistics</li>
+                <li><strong>Personal dictionary:</strong> User-defined list of proper nouns and technical terms for improved recognition accuracy</li>
+            </ul>
+
+            <h2>3. Eligibility</h2>
+            <p>You must be at least 13 years of age (or the minimum age required in your jurisdiction) to use this App. If you are under 18, you represent that your parent or legal guardian has reviewed and agreed to these Terms on your behalf. By using the App, you represent and warrant that you meet these requirements.</p>
+
+            <h2>4. Account and Authentication</h2>
+
+            <h3>4.1 Sign in with Apple</h3>
+            <p>TAP may offer Sign in with Apple as an authentication method. When using this feature:</p>
+            <ul>
+                <li>You are responsible for maintaining the security of your Apple ID</li>
+                <li>You agree to Apple's terms and conditions for Sign in with Apple</li>
+                <li>We are not responsible for any unauthorized access resulting from compromise of your Apple ID</li>
+            </ul>
+
+            <h3>4.2 API Key</h3>
+            <p>To use AI text processing features, you may need to provide a DeepSeek API key. You are solely responsible for:</p>
+            <ul>
+                <li>Obtaining your API key through legitimate means</li>
+                <li>Keeping your API key confidential and secure</li>
+                <li>All charges incurred through the use of your API key</li>
+                <li>Complying with DeepSeek's terms of service for API usage</li>
+            </ul>
+
+            <h2>5. User Content and Intellectual Property</h2>
+
+            <h3>5.1 Your Content</h3>
+            <p>You retain all ownership rights to the content you create using TAP, including:</p>
+            <ul>
+                <li>Spoken words and the resulting text transcriptions</li>
+                <li>AI-processed and polished text output</li>
+                <li>Personal dictionary entries</li>
+                <li>Transcription history records</li>
+            </ul>
+            <p>We do not claim any ownership or license rights over your content. Your content is stored locally on your device, and we do not have access to it.</p>
+
+            <h3>5.2 License Grant</h3>
+            <p>By using TAP, you grant us a limited, non-exclusive license to process your recognized text through the AI service solely for the purpose of providing the text polishing and formatting features you have requested. This license is:</p>
+            <ul>
+                <li>Temporary: Lasting only for the duration of the processing request</li>
+                <li>Non-transferable: We do not share your content with any party other than the AI processing service</li>
+                <li>Purpose-limited: Used exclusively to deliver the requested text enhancement</li>
+            </ul>
+
+            <h3>5.3 Our Intellectual Property</h3>
+            <p>The App, including its design, features, code, graphics, user interface, and documentation, is owned by MoguLabs and protected by intellectual property laws. You may not:</p>
+            <ul>
+                <li>Copy, modify, or distribute the App or any part thereof</li>
+                <li>Reverse engineer, decompile, or disassemble the App</li>
+                <li>Remove or alter any proprietary notices or labels</li>
+                <li>Use our trademarks, logos, or branding without prior written consent</li>
+            </ul>
+
+            <h2>6. Acceptable Use</h2>
+            <p>You agree to use TAP only for lawful purposes and in accordance with these Terms. You shall not:</p>
+            <ul>
+                <li>Use the App for any illegal, harmful, or fraudulent activity</li>
+                <li>Use the App to process content that is defamatory, obscene, threatening, or violates any third party's rights</li>
+                <li>Attempt to circumvent any security features or access controls of the App</li>
+                <li>Use the App to transmit malware, viruses, or malicious code</li>
+                <li>Use automated means (bots, scrapers) to interact with the App</li>
+                <li>Interfere with or disrupt the operation of the App or any connected services</li>
+                <li>Use the App in any manner that could overload, damage, or impair any third-party service</li>
+                <li>Record or transcribe conversations without the consent of all participants where required by law</li>
+                <li>Use the App to generate content that infringes on third-party intellectual property rights</li>
+                <li>Misrepresent AI-processed text as human-written in contexts where such disclosure is required</li>
+            </ul>
+
+            <h2>7. Third-Party Services</h2>
+
+            <h3>7.1 DeepSeek API</h3>
+            <p>TAP integrates with DeepSeek's API for AI text processing. By using this feature, you acknowledge and agree that:</p>
+            <ul>
+                <li>DeepSeek is an independent third-party service not controlled by MoguLabs</li>
+                <li>Your use of DeepSeek is subject to DeepSeek's own terms of service and privacy policy</li>
+                <li>We are not responsible for DeepSeek's availability, accuracy, performance, or data practices</li>
+                <li>DeepSeek's AI processing may occasionally produce inaccurate, inappropriate, or unexpected results</li>
+                <li>Service interruptions or API changes by DeepSeek may affect TAP's functionality</li>
+            </ul>
+
+            <h3>7.2 Apple Frameworks</h3>
+            <p>TAP relies on Apple's iOS frameworks including Speech Recognition (SFSpeechRecognizer) and AVFoundation. These frameworks are subject to Apple's terms and may have limitations on availability, accuracy, and supported languages.</p>
+
+            <h3>7.3 App Store</h3>
+            <p>Your download and use of the App is also governed by Apple's App Store Terms of Service. In the event of a conflict between these Terms and Apple's terms, Apple's terms shall prevail with respect to App Store-related matters.</p>
+
+            <h2>8. AI-Generated Content Disclaimer</h2>
+            <p>TAP uses artificial intelligence to process and enhance text. You acknowledge and agree that:</p>
+            <ul>
+                <li>AI processing may alter the meaning, tone, or intent of your original speech</li>
+                <li>AI output may contain errors, inaccuracies, or unintended modifications</li>
+                <li>You are solely responsible for reviewing, verifying, and accepting AI-processed text before using it</li>
+                <li>We make no warranties regarding the accuracy, completeness, or appropriateness of AI-generated content</li>
+                <li>AI-processed text should not be relied upon for legal, medical, financial, or other professional advice without independent verification</li>
+                <li>Translation accuracy may vary by language pair and content complexity</li>
+            </ul>
+
+            <h2>9. Privacy</h2>
+            <p>Your use of the App is also governed by our <a href="privacy.html">Privacy Policy</a>, which is incorporated into these Terms by reference. Please review the Privacy Policy to understand our data practices.</p>
+
+            <h2>10. Fees and Payment</h2>
+
+            <h3>10.1 App Purchase</h3>
+            <p>TAP may be offered as a free or paid application through the Apple App Store. Any applicable fees are disclosed at the time of download and are processed by Apple.</p>
+
+            <h3>10.2 API Costs</h3>
+            <p>Use of the DeepSeek API may incur costs charged directly by DeepSeek to you based on your API key usage. MoguLabs is not responsible for any API usage charges. You should monitor your API usage and set appropriate spending limits with DeepSeek.</p>
+
+            <h3>10.3 Refund Policy</h3>
+            <p>Refunds for App Store purchases are handled exclusively by Apple in accordance with Apple's refund policy.</p>
+
+            <h2>11. Disclaimer of Warranties</h2>
+            <p>THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:</p>
+            <ul>
+                <li>IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT</li>
+                <li>WARRANTIES THAT THE APP WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF HARMFUL COMPONENTS</li>
+                <li>WARRANTIES REGARDING THE ACCURACY OR RELIABILITY OF SPEECH RECOGNITION OR AI TEXT PROCESSING</li>
+                <li>WARRANTIES REGARDING THE AVAILABILITY OR PERFORMANCE OF THIRD-PARTY SERVICES</li>
+            </ul>
+            <p>SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES, SO SOME OF THE ABOVE EXCLUSIONS MAY NOT APPLY TO YOU. IN SUCH JURISDICTIONS, OUR LIABILITY IS LIMITED TO THE FULLEST EXTENT PERMITTED BY LAW.</p>
+
+            <h2>12. Limitation of Liability</h2>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, MOGULABS AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE LIABLE FOR:</p>
+            <ul>
+                <li>Any indirect, incidental, special, consequential, or punitive damages</li>
+                <li>Any loss of profits, data, goodwill, or other intangible losses</li>
+                <li>Any damages resulting from unauthorized access to or alteration of your content</li>
+                <li>Any damages resulting from errors or inaccuracies in speech recognition or AI processing</li>
+                <li>Any damages resulting from third-party service interruptions or failures</li>
+                <li>Any damages resulting from your failure to maintain the security of your API key</li>
+                <li>Any damages exceeding the total amount paid by you for the App in the twelve (12) months preceding the claim</li>
+            </ul>
+
+            <h2>13. Indemnification</h2>
+            <p>You agree to indemnify, defend, and hold harmless MoguLabs and its officers, directors, employees, and agents from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+            <ul>
+                <li>Your use of the App</li>
+                <li>Your violation of these Terms</li>
+                <li>Your violation of any applicable law or regulation</li>
+                <li>Your violation of any third party's rights</li>
+                <li>Content you create, transmit, or share using the App</li>
+                <li>Your use or misuse of your DeepSeek API key</li>
+            </ul>
+
+            <h2>14. Termination</h2>
+
+            <h3>14.1 By You</h3>
+            <p>You may terminate your use of the App at any time by uninstalling it from your device. Upon uninstallation, all locally stored data will be permanently deleted.</p>
+
+            <h3>14.2 By Us</h3>
+            <p>We reserve the right to suspend or terminate your access to the App at any time, with or without cause, with or without notice. Grounds for termination include, but are not limited to:</p>
+            <ul>
+                <li>Violation of these Terms</li>
+                <li>Illegal or abusive use of the App</li>
+                <li>Requests from law enforcement or government agencies</li>
+                <li>Discontinuation of the App (in whole or in part)</li>
+                <li>Unexpected technical or security issues</li>
+            </ul>
+
+            <h3>14.3 Effect of Termination</h3>
+            <p>Upon termination, your right to use the App ceases immediately. Sections of these Terms that by their nature should survive termination (including Disclaimers, Limitation of Liability, and Indemnification) shall continue to apply.</p>
+
+            <h2>15. Governing Law and Dispute Resolution</h2>
+
+            <h3>15.1 Governing Law</h3>
+            <p>These Terms shall be governed by and construed in accordance with the laws of the People's Republic of China, without regard to its conflict of law provisions.</p>
+
+            <h3>15.2 Dispute Resolution</h3>
+            <p>Any dispute arising out of or relating to these Terms or your use of the App shall be resolved through the following process:</p>
+            <ol>
+                <li><strong>Informal Resolution:</strong> You agree to first attempt to resolve any dispute informally by contacting us at the email address provided below. We will attempt to resolve the dispute within 30 days.</li>
+                <li><strong>Arbitration:</strong> If the dispute cannot be resolved informally, it shall be submitted to binding arbitration in accordance with the rules of the China International Economic and Trade Arbitration Commission (CIETAC).</li>
+                <li><strong>Jurisdiction:</strong> For any matters not subject to arbitration, you consent to the exclusive jurisdiction of the courts located in Shanghai, China.</li>
+            </ol>
+
+            <h3>15.3 Class Action Waiver</h3>
+            <p>TO THE EXTENT PERMITTED BY LAW, YOU AGREE THAT ANY PROCEEDINGS TO RESOLVE DISPUTES WILL BE CONDUCTED ONLY ON AN INDIVIDUAL BASIS AND NOT AS A CLASS ACTION OR OTHER REPRESENTATIVE PROCEEDING.</p>
+
+            <h2>16. General Provisions</h2>
+
+            <h3>16.1 Entire Agreement</h3>
+            <p>These Terms, together with the Privacy Policy, constitute the entire agreement between you and MoguLabs regarding your use of the App and supersede all prior agreements and understandings.</p>
+
+            <h3>16.2 Severability</h3>
+            <p>If any provision of these Terms is held to be invalid, illegal, or unenforceable, the remaining provisions shall continue in full force and effect.</p>
+
+            <h3>16.3 Waiver</h3>
+            <p>Our failure to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision.</p>
+
+            <h3>16.4 Assignment</h3>
+            <p>You may not assign or transfer your rights or obligations under these Terms without our prior written consent. We may assign our rights and obligations without restriction.</p>
+
+            <h3>16.5 Force Majeure</h3>
+            <p>We shall not be liable for any failure or delay in performance resulting from circumstances beyond our reasonable control, including but not limited to natural disasters, acts of government, network failures, third-party service outages, or pandemics.</p>
+
+            <h3>16.6 Notices</h3>
+            <p>We may provide notices to you through the App, via email, or through updates posted on our website. You may provide notices to us at the contact information listed below.</p>
+
+            <h2>17. Changes to These Terms</h2>
+            <p>We reserve the right to modify these Terms at any time. Material changes will be communicated through the App or our website at least 14 days before they take effect. Your continued use of the App after the effective date of any modifications constitutes your acceptance of the updated Terms.</p>
+            <p>If you do not agree to the revised Terms, you must stop using the App and uninstall it from your device.</p>
+
+            <h2>18. Contact Us</h2>
+            <p>If you have any questions, concerns, or feedback regarding these Terms of Service, please contact us at:</p>
+            <div class="highlight-box">
+                <p><strong>MoguLabs</strong><br>Email: <a href="mailto:nickyezhipeng@gmail.com">nickyezhipeng@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">&copy; 2025 MoguLabs. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="../">Home</a>
+                <a href="./">TAP</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

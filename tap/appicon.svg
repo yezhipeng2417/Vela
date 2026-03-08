@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" style="stop-color:#161618"/>
+      <stop offset="100%" style="stop-color:#08080A"/>
+    </radialGradient>
+
+    <!-- Ambient light behind ripples -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.07"/>
+      <stop offset="60%" style="stop-color:#FFFFFF;stop-opacity:0.02"/>
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0"/>
+    </radialGradient>
+
+    <!-- Ring gradient: top edge bright, bottom edge dark = 3D raised ring -->
+    <linearGradient id="ring1top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#E0E0E4"/>
+      <stop offset="100%" style="stop-color:#404044"/>
+    </linearGradient>
+    <linearGradient id="ring2top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#B0B0B6"/>
+      <stop offset="100%" style="stop-color:#303034"/>
+    </linearGradient>
+    <linearGradient id="ring3top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#787880"/>
+      <stop offset="100%" style="stop-color:#222226"/>
+    </linearGradient>
+
+    <!-- Center dot: metallic sphere -->
+    <radialGradient id="dotMetal" cx="38%" cy="32%" r="55%">
+      <stop offset="0%" style="stop-color:#FFFFFF"/>
+      <stop offset="40%" style="stop-color:#C8C8CC"/>
+      <stop offset="75%" style="stop-color:#68686E"/>
+      <stop offset="100%" style="stop-color:#38383C"/>
+    </radialGradient>
+
+    <filter id="dotGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+
+    <!-- Shadow beneath each ring for depth -->
+    <filter id="ringDepth" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="224" ry="224" fill="url(#bg)"/>
+
+  <!-- Ambient glow -->
+  <circle cx="512" cy="485" r="340" fill="url(#glow)"/>
+
+  <g transform="translate(512, 485)">
+
+    <!-- === Ring 3: outermost === -->
+    <!-- Shadow/dark inner edge -->
+    <circle cx="0" cy="3" r="290" fill="none" stroke="#0A0A0C" stroke-width="12" opacity="0.6"
+            stroke-dasharray="1120 700" stroke-dashoffset="310"/>
+    <!-- Bright top lit edge -->
+    <circle cx="0" cy="0" r="290" fill="none" stroke="url(#ring3top)" stroke-width="8" stroke-linecap="round"
+            stroke-dasharray="1120 700" stroke-dashoffset="310" opacity="0.55" filter="url(#ringDepth)"/>
+    <!-- Highlight edge -->
+    <circle cx="0" cy="-2" r="290" fill="none" stroke="#606068" stroke-width="2" stroke-linecap="round"
+            stroke-dasharray="1120 700" stroke-dashoffset="310" opacity="0.3"/>
+
+    <!-- === Ring 2: middle === -->
+    <circle cx="0" cy="3" r="200" fill="none" stroke="#0A0A0C" stroke-width="16" opacity="0.6"
+            stroke-dasharray="870 390" stroke-dashoffset="130"/>
+    <circle cx="0" cy="0" r="200" fill="none" stroke="url(#ring2top)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="870 390" stroke-dashoffset="130" opacity="0.7" filter="url(#ringDepth)"/>
+    <circle cx="0" cy="-2" r="200" fill="none" stroke="#909098" stroke-width="2.5" stroke-linecap="round"
+            stroke-dasharray="870 390" stroke-dashoffset="130" opacity="0.35"/>
+
+    <!-- === Ring 1: innermost === -->
+    <circle cx="0" cy="3" r="115" fill="none" stroke="#0A0A0C" stroke-width="20" opacity="0.6"
+            stroke-dasharray="560 162" stroke-dashoffset="-40"/>
+    <circle cx="0" cy="0" r="115" fill="none" stroke="url(#ring1top)" stroke-width="16" stroke-linecap="round"
+            stroke-dasharray="560 162" stroke-dashoffset="-40" opacity="0.85" filter="url(#ringDepth)"/>
+    <circle cx="0" cy="-2" r="115" fill="none" stroke="#D0D0D6" stroke-width="3" stroke-linecap="round"
+            stroke-dasharray="560 162" stroke-dashoffset="-40" opacity="0.4"/>
+
+    <!-- === Center dot: 3D metallic === -->
+    <!-- Glow -->
+    <circle cx="0" cy="0" r="30" fill="white" opacity="0.15" filter="url(#dotGlow)"/>
+    <!-- Shadow -->
+    <circle cx="2" cy="4" r="34" fill="#0A0A0C" opacity="0.5"/>
+    <!-- Main sphere -->
+    <circle cx="0" cy="0" r="32" fill="url(#dotMetal)"/>
+    <!-- Sharp specular -->
+    <circle cx="-9" cy="-10" r="10" fill="white" opacity="0.6"/>
+  </g>
+</svg>
