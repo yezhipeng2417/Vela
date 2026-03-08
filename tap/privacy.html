@@ -65,7 +65,7 @@
 
         <div class="legal-content">
             <div class="highlight-box">
-                <p><strong>Summary:</strong> TAP processes speech on your device using Apple's built-in speech recognition. Recognized text may be sent to a third-party AI service (DeepSeek) for polishing. We do not operate servers, do not create user accounts, and do not collect or store your personal data on any external system.</p>
+                <p><strong>Summary:</strong> TAP processes speech on your device. Recognized text may be sent to a third-party AI service for polishing. We do not operate servers, do not create user accounts, and do not collect or store your personal data on any external system.</p>
             </div>
 
             <h2>1. Introduction</h2>
@@ -77,25 +77,25 @@
             <h3>2.1 Audio Data</h3>
             <p>TAP accesses your device's microphone to capture audio for speech recognition. This audio data is:</p>
             <ul>
-                <li>Processed <strong>entirely on your device</strong> using Apple's Speech Recognition framework (SFSpeechRecognizer)</li>
+                <li>Processed <strong>entirely on your device</strong> using the operating system's built-in speech recognition</li>
                 <li><strong>Never recorded, stored, or transmitted</strong> to our servers</li>
                 <li><strong>Never uploaded</strong> to any MoguLabs-operated service</li>
                 <li>Discarded immediately after the speech recognition session ends</li>
             </ul>
-            <p>Apple may process limited speech data according to its own privacy policy when using the Speech Recognition framework. Please refer to <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a> for more details.</p>
+            <p>The device manufacturer may process limited speech data according to its own privacy policy. Please refer to <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a> for more details.</p>
 
             <h3>2.2 Recognized Text</h3>
-            <p>After on-device speech recognition produces text, this text may be sent to a third-party AI service (DeepSeek) for post-processing, which includes:</p>
+            <p>After on-device speech recognition produces text, this text may be sent to a third-party AI service for post-processing, which includes:</p>
             <ul>
                 <li>Removing filler words and verbal repetitions</li>
                 <li>Adding proper punctuation and formatting</li>
                 <li>Adjusting tone according to your preferences</li>
                 <li>Translating text to another language (if enabled)</li>
             </ul>
-            <p>The text sent to DeepSeek is processed in real-time and is not stored by MoguLabs. DeepSeek's handling of this data is governed by <a href="https://www.deepseek.com/privacy" target="_blank" rel="noopener">DeepSeek's Privacy Policy</a>.</p>
+            <p>The text is processed in real-time and is not stored by MoguLabs. The third-party AI service provider's handling of this data is governed by their own privacy policy.</p>
 
             <h3>2.3 User Settings and Preferences</h3>
-            <p>TAP stores your preferences locally on your device using iOS App Groups shared storage, including:</p>
+            <p>TAP stores your preferences locally on your device, including:</p>
             <ul>
                 <li>Preferred language and translation settings</li>
                 <li>Text processing preferences (filler word removal, formatting, tone)</li>
@@ -103,7 +103,7 @@
                 <li>Auto-stop timer settings</li>
                 <li>Haptic feedback preferences</li>
             </ul>
-            <p>These settings remain on your device and are shared only between the TAP main app and the TAP keyboard extension via the iOS App Group mechanism.</p>
+            <p>These settings remain on your device and are shared only between the TAP main app and the TAP keyboard extension through secure local storage.</p>
 
             <h3>2.4 Transcription History</h3>
             <p>TAP maintains a local history of your transcription sessions, including:</p>
@@ -116,7 +116,7 @@
             <p>This history is stored <strong>exclusively on your device</strong> and is never transmitted to any external server.</p>
 
             <h3>2.5 API Key</h3>
-            <p>If you provide a personal DeepSeek API key, it is stored locally on your device within the App Group shared storage. We never collect, transmit, or have access to your API key.</p>
+            <p>If you provide a personal API key for AI text processing, it is stored locally on your device. We never collect, transmit, or have access to your API key.</p>
 
             <h3>2.6 Sign in with Apple</h3>
             <p>TAP may offer Sign in with Apple for authentication purposes. When you use Sign in with Apple:</p>
@@ -132,7 +132,7 @@
             <ul>
                 <li>Operate any data collection servers</li>
                 <li>Collect analytics or usage telemetry</li>
-                <li>Use advertising trackers or third-party analytics SDKs</li>
+                <li>Use advertising trackers or third-party analytics tools</li>
                 <li>Sell, rent, or share personal data with third parties for marketing purposes</li>
                 <li>Create user profiles or track behavior across apps</li>
                 <li>Store audio recordings of your voice</li>
@@ -144,7 +144,7 @@
             <p>The limited information processed by TAP is used exclusively to:</p>
             <ul>
                 <li>Convert your speech to text using on-device speech recognition</li>
-                <li>Send recognized text to DeepSeek's API for AI-powered polishing (when API key is configured)</li>
+                <li>Send recognized text to a third-party AI service for polishing (when enabled)</li>
                 <li>Display your transcription history within the app</li>
                 <li>Maintain your personal settings and dictionary</li>
                 <li>Provide usage insights and statistics locally on your device</li>
@@ -152,17 +152,17 @@
 
             <h2>5. Third-Party Services</h2>
 
-            <h3>5.1 Apple Speech Recognition</h3>
-            <p>TAP uses Apple's SFSpeechRecognizer framework for on-device speech recognition. Apple may process speech data in accordance with its privacy policy. On supported devices, speech recognition is performed entirely on-device.</p>
+            <h3>5.1 On-Device Speech Recognition</h3>
+            <p>TAP uses the operating system's built-in speech recognition capabilities. The device manufacturer may process speech data in accordance with its privacy policy. On supported devices, speech recognition is performed entirely on-device.</p>
 
-            <h3>5.2 DeepSeek API</h3>
-            <p>When AI text processing is enabled, recognized text is sent to DeepSeek's API for enhancement. Key points:</p>
+            <h3>5.2 AI Text Processing Service</h3>
+            <p>When AI text processing is enabled, recognized text is sent to a third-party AI service for enhancement. Key points:</p>
             <ul>
                 <li>Only the <strong>text transcript</strong> is sent — never audio data</li>
                 <li>Communication uses HTTPS encryption</li>
                 <li>Data is processed in real-time and returned immediately</li>
-                <li>MoguLabs does not control DeepSeek's data retention policies; please review their privacy policy independently</li>
-                <li>If no API key is configured, text is used as-is without being sent to any external service</li>
+                <li>MoguLabs does not control the AI service provider's data retention policies; please review their privacy policy independently</li>
+                <li>If AI processing is not enabled, text is used as-is without being sent to any external service</li>
             </ul>
 
             <h3>5.3 Apple App Store</h3>
@@ -171,23 +171,19 @@
             <h2>6. Data Storage and Security</h2>
 
             <h3>6.1 Local Storage</h3>
-            <p>All user data (settings, history, dictionary) is stored locally on your iOS device using:</p>
-            <ul>
-                <li><strong>App Group Shared Storage</strong> (UserDefaults with suite name) for settings and inter-process communication between the main app and keyboard extension</li>
-                <li><strong>Local JSON files</strong> for transcription history</li>
-            </ul>
+            <p>All user data (settings, history, dictionary) is stored locally on your device. Data is shared between the main app and keyboard extension through the operating system's secure shared storage mechanism.</p>
 
             <h3>6.2 Keyboard Extension Security</h3>
-            <p>The TAP keyboard extension operates within iOS's sandboxed environment:</p>
+            <p>The TAP keyboard extension operates within the operating system's sandboxed environment:</p>
             <ul>
                 <li>The keyboard extension has <strong>no network access</strong> of its own</li>
-                <li>Communication between the keyboard and main app occurs exclusively through the iOS App Group mechanism</li>
+                <li>Communication between the keyboard and main app occurs exclusively through secure local shared storage</li>
                 <li>The keyboard cannot access data from other apps beyond the active text input field</li>
-                <li>All keyboard operations comply with Apple's App Extension security requirements</li>
+                <li>All keyboard operations comply with platform security requirements</li>
             </ul>
 
             <h3>6.3 Data Encryption</h3>
-            <p>Data stored on your device is protected by iOS's built-in file encryption (Data Protection). When data is transmitted to DeepSeek's API, it is encrypted using HTTPS/TLS.</p>
+            <p>Data stored on your device is protected by the operating system's built-in file encryption. When data is transmitted to external services, it is encrypted using HTTPS/TLS.</p>
 
             <h2>7. Data Retention and Deletion</h2>
             <ul>
@@ -203,7 +199,7 @@
             <ul>
                 <li><strong>Access:</strong> All your data is stored locally and visible within the app (History, Settings, Dictionary screens)</li>
                 <li><strong>Deletion:</strong> Delete individual history entries within the app, or uninstall to remove all data</li>
-                <li><strong>Control over AI processing:</strong> Remove or don't configure a DeepSeek API key to use TAP without any external data transmission</li>
+                <li><strong>Control over AI processing:</strong> Disable AI processing to use TAP without any external data transmission</li>
                 <li><strong>Control over translation:</strong> Enable or disable translation on a per-session basis directly from the keyboard</li>
                 <li><strong>Microphone access:</strong> Revoke microphone permission at any time through iOS Settings</li>
                 <li><strong>Speech recognition:</strong> Revoke speech recognition permission at any time through iOS Settings</li>
@@ -214,12 +210,12 @@
             <p>TAP is not directed at children under the age of 13 (or equivalent minimum age in your jurisdiction). We do not knowingly collect personal information from children. If you believe a child has provided personal information through our App, please contact us so we can address the concern.</p>
 
             <h2>10. International Users</h2>
-            <p>TAP processes data locally on your device. When AI text processing is enabled, recognized text is transmitted to DeepSeek's servers, which may be located outside your country of residence. By using the AI processing feature, you consent to this transfer. You may opt out by not configuring an API key.</p>
+            <p>TAP processes data locally on your device. When AI text processing is enabled, recognized text is transmitted to third-party servers, which may be located outside your country of residence. By using the AI processing feature, you consent to this transfer. You may opt out by disabling AI processing in your settings.</p>
 
             <h3>10.1 European Economic Area (EEA) Users</h3>
             <p>If you are in the EEA, our legal basis for processing is:</p>
             <ul>
-                <li><strong>Consent:</strong> You provide consent by granting microphone and speech recognition permissions, and by configuring an API key for AI processing</li>
+                <li><strong>Consent:</strong> You provide consent by granting microphone and speech recognition permissions, and by enabling AI processing features</li>
                 <li><strong>Legitimate interest:</strong> Providing the core functionality of the App (local speech-to-text conversion)</li>
             </ul>
 
