@@ -1,0 +1,180 @@
+{
+  "updatedAt": "2026-03-18T00:00:00Z",
+  "totalMarketplaces": 3,
+  "totalPlugins": 8,
+  "marketplaces": [
+    {
+      "repo": "anthropics/claude-code",
+      "repoUrl": "https://github.com/anthropics/claude-code",
+      "stars": 66600,
+      "forks": 5100,
+      "topics": ["claude-code", "ai", "plugins", "cli"],
+      "license": "Apache-2.0",
+      "repoDescription": "An agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster.",
+      "repoUpdatedAt": "2026-03-17T12:00:00Z",
+      "repoCreatedAt": "2025-01-15T00:00:00Z",
+      "ownerAvatar": "https://avatars.githubusercontent.com/u/76263028",
+      "name": "claude-code-bundled",
+      "version": "1.0.0",
+      "description": "Official bundled plugins for Claude Code, including code review, testing utilities, and development tools.",
+      "owner": { "name": "Anthropic" },
+      "pluginCount": 3,
+      "plugins": [
+        {
+          "name": "code-review",
+          "description": "Automated code review with AI-powered suggestions for improving code quality, finding bugs, and enforcing best practices.",
+          "version": "1.0.0",
+          "source": "./plugins/code-review",
+          "category": "development",
+          "tags": ["review", "quality", "linting"],
+          "hasCommands": true,
+          "hasAgents": true,
+          "hasHooks": true,
+          "hasSkills": true,
+          "hasMcp": false,
+          "hasLsp": false
+        },
+        {
+          "name": "test-runner",
+          "description": "Run and manage tests across multiple frameworks. Supports Jest, Vitest, pytest, and more.",
+          "version": "1.0.0",
+          "source": "./plugins/test-runner",
+          "category": "testing",
+          "tags": ["testing", "jest", "vitest", "pytest"],
+          "hasCommands": true,
+          "hasAgents": false,
+          "hasHooks": false,
+          "hasSkills": true,
+          "hasMcp": false,
+          "hasLsp": false
+        },
+        {
+          "name": "git-utils",
+          "description": "Enhanced git operations including smart commit messages, branch management, and PR workflows.",
+          "version": "1.0.0",
+          "source": "./plugins/git-utils",
+          "category": "development",
+          "tags": ["git", "vcs", "workflow"],
+          "hasCommands": true,
+          "hasAgents": false,
+          "hasHooks": true,
+          "hasSkills": false,
+          "hasMcp": false,
+          "hasLsp": false
+        }
+      ],
+      "categories": [
+        { "name": "Development", "description": "Core development tools", "plugins": ["code-review", "git-utils"] },
+        { "name": "Testing", "description": "Test and quality tools", "plugins": ["test-runner"] }
+      ]
+    },
+    {
+      "repo": "example/claude-devtools",
+      "repoUrl": "https://github.com/example/claude-devtools",
+      "stars": 1280,
+      "forks": 89,
+      "topics": ["claude-code", "devtools", "mcp"],
+      "license": "MIT",
+      "repoDescription": "Developer tools marketplace for Claude Code - MCP servers, LSP integration, and more.",
+      "repoUpdatedAt": "2026-03-15T08:30:00Z",
+      "repoCreatedAt": "2025-06-01T00:00:00Z",
+      "ownerAvatar": "https://avatars.githubusercontent.com/u/1234567",
+      "name": "claude-devtools",
+      "version": "0.5.0",
+      "description": "A collection of developer-focused plugins with MCP server integrations for enhanced IDE capabilities.",
+      "owner": { "name": "DevTools Community" },
+      "pluginCount": 3,
+      "plugins": [
+        {
+          "name": "db-explorer",
+          "description": "Browse and query databases directly from Claude Code. Supports PostgreSQL, MySQL, and SQLite.",
+          "version": "0.3.0",
+          "source": "./plugins/db-explorer",
+          "category": "database",
+          "tags": ["database", "sql", "postgresql"],
+          "hasCommands": true,
+          "hasAgents": false,
+          "hasHooks": false,
+          "hasSkills": false,
+          "hasMcp": true,
+          "hasLsp": false
+        },
+        {
+          "name": "typescript-enhanced",
+          "description": "Enhanced TypeScript support with advanced type checking and refactoring capabilities.",
+          "version": "0.4.0",
+          "source": "./plugins/ts-enhanced",
+          "category": "language",
+          "tags": ["typescript", "types", "refactoring"],
+          "hasCommands": false,
+          "hasAgents": false,
+          "hasHooks": false,
+          "hasSkills": true,
+          "hasMcp": false,
+          "hasLsp": true
+        },
+        {
+          "name": "docker-manager",
+          "description": "Manage Docker containers and images. Build, run, and debug containers from your editor.",
+          "version": "0.2.0",
+          "source": "./plugins/docker",
+          "category": "devops",
+          "tags": ["docker", "containers", "devops"],
+          "hasCommands": true,
+          "hasAgents": true,
+          "hasHooks": false,
+          "hasSkills": false,
+          "hasMcp": true,
+          "hasLsp": false
+        }
+      ]
+    },
+    {
+      "repo": "example/ai-workflows",
+      "repoUrl": "https://github.com/example/ai-workflows",
+      "stars": 450,
+      "forks": 32,
+      "topics": ["claude-code", "ai", "automation", "workflows"],
+      "license": "MIT",
+      "repoDescription": "AI-powered workflow automation plugins for Claude Code.",
+      "repoUpdatedAt": "2026-03-10T14:00:00Z",
+      "repoCreatedAt": "2025-09-01T00:00:00Z",
+      "ownerAvatar": "https://avatars.githubusercontent.com/u/7654321",
+      "name": "ai-workflows",
+      "version": "0.2.0",
+      "description": "Automate repetitive development workflows with AI agents. From documentation generation to dependency updates.",
+      "owner": { "name": "AI Workflows" },
+      "pluginCount": 2,
+      "plugins": [
+        {
+          "name": "doc-generator",
+          "description": "Automatically generate and maintain documentation from your codebase. Supports JSDoc, TSDoc, and Markdown.",
+          "version": "0.2.0",
+          "source": "./plugins/doc-gen",
+          "category": "documentation",
+          "tags": ["docs", "jsdoc", "markdown"],
+          "hasCommands": true,
+          "hasAgents": true,
+          "hasHooks": true,
+          "hasSkills": false,
+          "hasMcp": false,
+          "hasLsp": false
+        },
+        {
+          "name": "dep-updater",
+          "description": "Smart dependency updates with compatibility checking and automated PR creation.",
+          "version": "0.1.0",
+          "source": "./plugins/dep-update",
+          "category": "development",
+          "tags": ["dependencies", "npm", "updates"],
+          "hasCommands": true,
+          "hasAgents": true,
+          "hasHooks": false,
+          "hasSkills": false,
+          "hasMcp": false,
+          "hasLsp": false
+        }
+      ]
+    }
+  ]
+}
