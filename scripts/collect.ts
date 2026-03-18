@@ -153,6 +153,12 @@ async function main() {
 
   const totalPlugins = marketplaces.reduce((sum, m) => sum + m.pluginCount, 0)
 
+  // If no results found, keep existing data
+  if (marketplaces.length === 0) {
+    console.log('\nNo marketplaces found. Keeping existing data unchanged.')
+    return
+  }
+
   const output: MarketplaceData = {
     updatedAt: new Date().toISOString(),
     totalMarketplaces: marketplaces.length,
