@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest'
-import { writeFileSync, mkdirSync } from 'fs'
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { validateMarketplace } from './validate.js'
@@ -19,8 +19,24 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+function loadExisting(): Map<string, CollectedMarketplace> {
+  const map = new Map<string, CollectedMarketplace>()
+  if (!existsSync(OUTPUT_PATH)) return map
+
+  try {
+    const raw = JSON.parse(readFileSync(OUTPUT_PATH, 'utf-8')) as MarketplaceData
+    for (const m of raw.marketplaces) {
+      map.set(m.repo, m)
+    }
+    console.log(`Loaded ${map.size} existing marketplaces from cache.`)
+  } catch {
+    console.warn('Failed to load existing data, starting fresh.')
+  }
+  return map
+}
+
 async function searchMarketplaceRepos(): Promise<string[]> {
-  const repos: string[] = []
+  const repoSet = new Set<string>()
   let page = 1
   const perPage = 100
 
@@ -34,31 +50,48 @@ async function searchMarketplaceRepos(): Promise<string[]> {
     })
 
     for (const item of data.items) {
-      const fullName = item.repository.full_name
-      if (!repos.includes(fullName)) {
-        repos.push(fullName)
-      }
+      repoSet.add(item.repository.full_name)
     }
 
-    console.log(`  Page ${page}: found ${data.items.length} results (total unique repos: ${repos.length})`)
+    console.log(`  Page ${page}: found ${data.items.length} results (total unique repos: ${repoSet.size})`)
 
     if (data.items.length < perPage) break
     page++
     await sleep(SEARCH_DELAY_MS)
   }
 
-  console.log(`Found ${repos.length} unique repos.`)
-  return repos
+  console.log(`Found ${repoSet.size} unique repos.`)
+  return [...repoSet]
+}
+
+async function updateStarsAndForks(
+  existing: CollectedMarketplace,
+): Promise<CollectedMarketplace | null> {
+  const [owner, repo] = existing.repo.split('/')
+  try {
+    const { data: repoData } = await octokit.repos.get({ owner: owner!, repo: repo! })
+    return {
+      ...existing,
+      stars: repoData.stargazers_count,
+      forks: repoData.forks_count,
+      topics: repoData.topics ?? [],
+      license: repoData.license?.spdx_id ?? null,
+      repoDescription: repoData.description,
+      repoUpdatedAt: repoData.updated_at ?? existing.repoUpdatedAt,
+      ownerAvatar: repoData.owner.avatar_url,
+    }
+  } catch (err) {
+    console.warn(`  ${existing.repo}: failed to update stats - ${err instanceof Error ? err.message : String(err)}`)
+    return existing // keep stale data rather than dropping it
+  }
 }
 
 async function collectMarketplace(fullName: string): Promise<CollectedMarketplace | null> {
   const [owner, repo] = fullName.split('/')
 
   try {
-    // Get repo info
     const { data: repoData } = await octokit.repos.get({ owner: owner!, repo: repo! })
 
-    // Get marketplace.json content
     const { data: fileData } = await octokit.repos.getContent({
       owner: owner!,
       repo: repo!,
@@ -133,19 +166,47 @@ async function collectMarketplace(fullName: string): Promise<CollectedMarketplac
 async function main() {
   console.log('=== Claude Code Marketplace Collector ===\n')
 
+  const existing = loadExisting()
   const repos = await searchMarketplaceRepos()
+  const searchedRepos = new Set(repos)
 
-  console.log('\nCollecting marketplace data...')
+  // Split into new repos vs existing repos
+  const newRepos = repos.filter((r) => !existing.has(r))
+  const existingRepos = repos.filter((r) => existing.has(r))
+  // Repos in cache but no longer found in search — drop them
+  const removedCount = [...existing.keys()].filter((r) => !searchedRepos.has(r)).length
+
+  console.log(`\n  New repos: ${newRepos.length}`)
+  console.log(`  Existing repos (update stats): ${existingRepos.length}`)
+  console.log(`  Removed repos (no longer found): ${removedCount}`)
+
   const marketplaces: CollectedMarketplace[] = []
 
-  for (const fullName of repos) {
-    console.log(`  Processing ${fullName}...`)
-    const result = await collectMarketplace(fullName)
-    if (result) {
-      marketplaces.push(result)
-      console.log(`    OK: ${result.name} (${result.pluginCount} plugins)`)
+  // Full collect for new repos
+  if (newRepos.length > 0) {
+    console.log('\nCollecting new marketplaces...')
+    for (const fullName of newRepos) {
+      console.log(`  Processing ${fullName}...`)
+      const result = await collectMarketplace(fullName)
+      if (result) {
+        marketplaces.push(result)
+        console.log(`    OK: ${result.name} (${result.pluginCount} plugins)`)
+      }
+      await sleep(REPO_DELAY_MS)
     }
-    await sleep(REPO_DELAY_MS)
+  }
+
+  // Lightweight update for existing repos (stars, forks, topics, etc.)
+  if (existingRepos.length > 0) {
+    console.log('\nUpdating stats for existing marketplaces...')
+    for (const fullName of existingRepos) {
+      const cached = existing.get(fullName)!
+      const updated = await updateStarsAndForks(cached)
+      if (updated) {
+        marketplaces.push(updated)
+      }
+      await sleep(REPO_DELAY_MS)
+    }
   }
 
   // Sort by stars descending
