@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vela — Support</title>
+    <meta name="description" content="Get help with Vela AI Health Companion. FAQs, troubleshooting, and contact support.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050507; --surface: #0a0a0f; --text: #f5f5f7; --text2: #86868b; --text3: #48484a; --accent: #7c6ef0; --accent2: #e87e9a; --accent3: #56bfb5; --card-bg: rgba(255,255,255,0.03); --card-border: rgba(255,255,255,0.06); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(5,5,7,0.8); border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .nav-logo { font-size: 18px; font-weight: 700; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text); }
+
+        /* Language toggle */
+        .lang-toggle {
+            display: flex; align-items: center; gap: 0;
+            background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .lang-btn {
+            padding: 6px 14px; font-size: 13px; font-weight: 600;
+            background: none; border: none; color: var(--text2);
+            cursor: pointer; transition: all 0.3s;
+            font-family: inherit;
+        }
+        .lang-btn.active {
+            background: var(--accent); color: #fff;
+        }
+        .lang-btn:hover:not(.active) { color: var(--text); }
+
+        .container { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; }
+        .page-label { font-size: 14px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+        .page-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px; }
+        .page-sub { font-size: 17px; color: var(--text2); line-height: 1.6; margin-bottom: 56px; }
+
+        /* Contact cards */
+        .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 64px; }
+        .contact-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 28px 24px; text-decoration: none; color: var(--text);
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
+        }
+        .contact-card:hover {
+            border-color: rgba(124,110,240,0.2);
+            box-shadow: 0 8px 30px rgba(124,110,240,0.08);
+            transform: translateY(-3px);
+        }
+        .contact-icon { font-size: 28px; }
+        .contact-title { font-size: 16px; font-weight: 700; }
+        .contact-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+        /* FAQ */
+        .faq-section h2 {
+            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .faq-question {
+            width: 100%; background: none; border: none; color: var(--text);
+            font-family: inherit; font-size: 16px; font-weight: 600;
+            padding: 20px 0; text-align: left; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .faq-question:hover { color: var(--accent); }
+        .faq-arrow {
+            font-size: 18px; color: var(--text3);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        .faq-item.open .faq-arrow { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+        .faq-answer-inner {
+            padding: 0 0 20px;
+            font-size: 15px; color: var(--text2); line-height: 1.8;
+        }
+        .faq-answer-inner a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(124,110,240,0.2); }
+        .faq-answer-inner a:hover { border-color: var(--accent); }
+        .faq-answer-inner ol, .faq-answer-inner ul { margin: 8px 0 8px 20px; }
+        .faq-answer-inner li { margin-bottom: 4px; }
+
+        /* Troubleshooting */
+        .troubleshoot-section { margin-top: 64px; }
+        .troubleshoot-section h2 {
+            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px;
+        }
+        .tip-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 24px; margin-bottom: 16px;
+        }
+        .tip-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .tip-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
+        .tip-desc ol { margin: 8px 0 0 20px; }
+        .tip-desc li { margin-bottom: 4px; }
+
+        .footer { border-top: 1px solid rgba(255,255,255,0.04); padding: 32px 24px; text-align: center; }
+        .footer-inner { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .footer-left { font-size: 13px; color: var(--text3); display: flex; align-items: center; gap: 8px; }
+        .footer-left img { width: 20px; height: 20px; border-radius: 5px; }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--text2); }
+
+        @media (max-width: 600px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .nav { padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="./" class="nav-logo"><img src="appicon.png" alt="Vela"> Vela</a>
+        <div class="nav-links">
+            <a href="./">Home</a>
+            <a href="support.html">Support</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLang('en')">EN</button>
+                <button class="lang-btn" onclick="setLang('zh')">中文</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-label" data-en="Support" data-zh="支持">Support</div>
+        <h1 class="page-title" data-en="How Can We Help?" data-zh="我们能帮您什么？">How Can We Help?</h1>
+        <p class="page-sub" data-en="Find answers to common questions or reach out to us directly." data-zh="查找常见问题的答案，或直接联系我们。">Find answers to common questions or reach out to us directly.</p>
+
+        <!-- Contact -->
+        <div class="contact-grid">
+            <a href="mailto:louis.cfzy@gmail.com" class="contact-card">
+                <span class="contact-icon">✉️</span>
+                <span class="contact-title" data-en="Email Us" data-zh="发送邮件">Email Us</span>
+                <span class="contact-desc" data-en="louis.cfzy@gmail.com&lt;br&gt;We typically respond within 24 hours." data-zh="louis.cfzy@gmail.com&lt;br&gt;我们通常会在 24 小时内回复。">louis.cfzy@gmail.com<br>We typically respond within 24 hours.</span>
+            </a>
+            <a href="https://github.com/yezhipeng2417/vela-ios/issues" target="_blank" rel="noopener" class="contact-card">
+                <span class="contact-icon">🐛</span>
+                <span class="contact-title" data-en="Report a Bug" data-zh="报告问题">Report a Bug</span>
+                <span class="contact-desc" data-en="Open an issue on GitHub with details about the problem." data-zh="在 GitHub 上提交 issue，描述您遇到的问题。">Open an issue on GitHub with details about the problem.</span>
+            </a>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h2 data-en="Frequently Asked Questions" data-zh="常见问题">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="What is Vela?" data-zh="Vela 是什么？">What is Vela? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Vela is an AI-powered health companion app that integrates with Apple HealthKit and various wearable devices to provide personalized health insights, workout recommendations, nutrition plans, and recovery guidance. It uses advanced AI to analyze your health data and deliver actionable advice." data-zh="Vela 是一款 AI 驱动的健康助手应用，它与 Apple HealthKit 以及各种可穿戴设备集成，为您提供个性化的健康洞察、锻炼建议、营养计划和恢复指导。它利用先进的 AI 分析您的健康数据并提供可执行的建议。">Vela is an AI-powered health companion app that integrates with Apple HealthKit and various wearable devices to provide personalized health insights, workout recommendations, nutrition plans, and recovery guidance. It uses advanced AI to analyze your health data and deliver actionable advice.</div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="What devices does Vela support?" data-zh="Vela 支持哪些设备？">What devices does Vela support? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Vela supports a wide range of health devices including Apple Watch, Garmin watches, Oura Ring, RingConn, WHOOP, and Withings products. Data is synced via Apple HealthKit, so any device that writes to HealthKit is compatible with Vela." data-zh="Vela 支持多种健康设备，包括 Apple Watch、Garmin 手表、Oura Ring、RingConn、WHOOP 以及 Withings 产品。数据通过 Apple HealthKit 同步，因此任何写入 HealthKit 的设备都与 Vela 兼容。">Vela supports a wide range of health devices including Apple Watch, Garmin watches, Oura Ring, RingConn, WHOOP, and Withings products. Data is synced via Apple HealthKit, so any device that writes to HealthKit is compatible with Vela.</div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="How does the AI coaching work?" data-zh="AI 健康指导是如何工作的？">How does the AI coaching work? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Vela's AI assistant, Avela, analyzes your health data — including activity, sleep, heart rate, and nutrition — to provide personalized coaching. You can chat with Avela to ask health-related questions, get workout suggestions, or receive insights about your trends over time." data-zh="Vela 的 AI 助手 Avela 会分析您的健康数据——包括活动、睡眠、心率和营养——以提供个性化的健康指导。您可以与 Avela 对话，询问健康相关问题、获取锻炼建议或了解您的健康趋势。">Vela's AI assistant, Avela, analyzes your health data — including activity, sleep, heart rate, and nutrition — to provide personalized coaching. You can chat with Avela to ask health-related questions, get workout suggestions, or receive insights about your trends over time.</div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="Is my health data private and secure?" data-zh="我的健康数据是否安全？">Is my health data private and secure? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Yes. Your health data stays on your device and is accessed only through Apple HealthKit. Vela does not upload your raw health data to external servers. When you interact with the AI assistant, only the necessary context is sent securely for processing. See our &lt;a href='privacy.html'&gt;Privacy Policy&lt;/a&gt; for full details." data-zh="是的。您的健康数据保留在您的设备上，仅通过 Apple HealthKit 访问。Vela 不会将您的原始健康数据上传到外部服务器。当您与 AI 助手互动时，只有必要的上下文会被安全地发送以进行处理。请参阅我们的&lt;a href='privacy.html'&gt;隐私政策&lt;/a&gt;了解详情。">Yes. Your health data stays on your device and is accessed only through Apple HealthKit. Vela does not upload your raw health data to external servers. When you interact with the AI assistant, only the necessary context is sent securely for processing. See our <a href="privacy.html">Privacy Policy</a> for full details.</div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="How do I connect my wearable device?" data-zh="如何连接我的可穿戴设备？">How do I connect my wearable device? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="&lt;ol&gt;&lt;li&gt;Make sure your wearable device syncs data to Apple HealthKit.&lt;/li&gt;&lt;li&gt;Open Vela and go to &lt;strong&gt;Settings &gt; Health Data&lt;/strong&gt;.&lt;/li&gt;&lt;li&gt;Grant Vela access to the relevant HealthKit categories (steps, heart rate, sleep, etc.).&lt;/li&gt;&lt;li&gt;Your data will appear automatically in Vela's dashboard.&lt;/li&gt;&lt;/ol&gt;" data-zh="&lt;ol&gt;&lt;li&gt;确保您的可穿戴设备已将数据同步至 Apple HealthKit。&lt;/li&gt;&lt;li&gt;打开 Vela，进入&lt;strong&gt;设置 &gt; 健康数据&lt;/strong&gt;。&lt;/li&gt;&lt;li&gt;授权 Vela 访问相关的 HealthKit 类别（步数、心率、睡眠等）。&lt;/li&gt;&lt;li&gt;您的数据将自动显示在 Vela 的仪表板中。&lt;/li&gt;&lt;/ol&gt;">
+                    <ol>
+                        <li>Make sure your wearable device syncs data to Apple HealthKit.</li>
+                        <li>Open Vela and go to <strong>Settings &gt; Health Data</strong>.</li>
+                        <li>Grant Vela access to the relevant HealthKit categories (steps, heart rate, sleep, etc.).</li>
+                        <li>Your data will appear automatically in Vela's dashboard.</li>
+                    </ol>
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="Does Vela require a subscription?" data-zh="Vela 需要订阅吗？">Does Vela require a subscription? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Vela offers core health tracking features for free. Advanced AI coaching and premium insights may require a subscription. Check the app for current pricing and plan details." data-zh="Vela 提供免费的核心健康追踪功能。高级 AI 指导和高级洞察可能需要订阅。请在应用内查看当前定价和计划详情。">Vela offers core health tracking features for free. Advanced AI coaching and premium insights may require a subscription. Check the app for current pricing and plan details.</div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="Can I use Vela without a wearable device?" data-zh="没有可穿戴设备可以使用 Vela 吗？">Can I use Vela without a wearable device? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Yes! Vela works with data from your iPhone's built-in sensors (steps, walking distance, etc.) via HealthKit. A wearable device provides richer data (heart rate, sleep tracking, etc.), but it's not required to use Vela." data-zh="可以！Vela 可以使用 iPhone 内置传感器通过 HealthKit 提供的数据（步数、步行距离等）。可穿戴设备可以提供更丰富的数据（心率、睡眠追踪等），但使用 Vela 并不强制要求。">Yes! Vela works with data from your iPhone's built-in sensors (steps, walking distance, etc.) via HealthKit. A wearable device provides richer data (heart rate, sleep tracking, etc.), but it's not required to use Vela.</div></div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" data-en="How do I chat with Avela?" data-zh="如何与 Avela 对话？">How do I chat with Avela? <span class="faq-arrow">+</span></button>
+                <div class="faq-answer"><div class="faq-answer-inner" data-en="Open the Vela app and navigate to the &lt;strong&gt;Chat&lt;/strong&gt; tab. You can type or speak your questions. Avela has access to your health data context and can answer questions like &quot;How was my sleep this week?&quot; or &quot;Suggest a workout for today.&quot;" data-zh="打开 Vela 应用，导航到&lt;strong&gt;对话&lt;/strong&gt;标签页。您可以输入或语音提问。Avela 可以访问您的健康数据上下文，回答诸如"我这周睡眠怎么样？"或"为今天推荐一个锻炼计划"等问题。">Open the Vela app and navigate to the <strong>Chat</strong> tab. You can type or speak your questions. Avela has access to your health data context and can answer questions like "How was my sleep this week?" or "Suggest a workout for today."</div></div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="troubleshoot-section">
+            <h2 data-en="Troubleshooting" data-zh="故障排除">Troubleshooting</h2>
+
+            <div class="tip-card">
+                <div class="tip-title" data-en="❤️ Health data not showing" data-zh="❤️ 健康数据未显示">❤️ Health data not showing</div>
+                <div class="tip-desc" data-en="&lt;ol&gt;&lt;li&gt;Go to &lt;strong&gt;Settings &gt; Privacy &amp; Security &gt; Health&lt;/strong&gt; and ensure Vela has permission.&lt;/li&gt;&lt;li&gt;Open the &lt;strong&gt;Health&lt;/strong&gt; app and check that your device is writing data correctly.&lt;/li&gt;&lt;li&gt;Try closing and reopening Vela — data syncs on launch.&lt;/li&gt;&lt;li&gt;Make sure your iPhone is running iOS 16 or later.&lt;/li&gt;&lt;/ol&gt;" data-zh="&lt;ol&gt;&lt;li&gt;前往&lt;strong&gt;设置 &gt; 隐私与安全 &gt; 健康&lt;/strong&gt;，确保 Vela 有权限。&lt;/li&gt;&lt;li&gt;打开&lt;strong&gt;健康&lt;/strong&gt;应用，检查您的设备是否正确写入数据。&lt;/li&gt;&lt;li&gt;尝试关闭并重新打开 Vela —— 数据在启动时同步。&lt;/li&gt;&lt;li&gt;确保您的 iPhone 运行 iOS 16 或更高版本。&lt;/li&gt;&lt;/ol&gt;">
+                    <ol>
+                        <li>Go to <strong>Settings &gt; Privacy &amp; Security &gt; Health</strong> and ensure Vela has permission.</li>
+                        <li>Open the <strong>Health</strong> app and check that your device is writing data correctly.</li>
+                        <li>Try closing and reopening Vela — data syncs on launch.</li>
+                        <li>Make sure your iPhone is running iOS 16 or later.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-title" data-en="⌚ Wearable data not syncing" data-zh="⌚ 可穿戴设备数据未同步">⌚ Wearable data not syncing</div>
+                <div class="tip-desc" data-en="&lt;ol&gt;&lt;li&gt;Open your wearable's companion app and verify it's syncing to Apple Health.&lt;/li&gt;&lt;li&gt;In the Health app, check &lt;strong&gt;Data Sources &amp; Access&lt;/strong&gt; to confirm data is being written.&lt;/li&gt;&lt;li&gt;Ensure Bluetooth is enabled and your device is connected.&lt;/li&gt;&lt;li&gt;Restart both your iPhone and wearable device.&lt;/li&gt;&lt;/ol&gt;" data-zh="&lt;ol&gt;&lt;li&gt;打开您的可穿戴设备配套应用，确认它正在同步到 Apple 健康。&lt;/li&gt;&lt;li&gt;在健康应用中，检查&lt;strong&gt;数据来源与访问&lt;/strong&gt;以确认数据正在写入。&lt;/li&gt;&lt;li&gt;确保蓝牙已开启且设备已连接。&lt;/li&gt;&lt;li&gt;重启您的 iPhone 和可穿戴设备。&lt;/li&gt;&lt;/ol&gt;">
+                    <ol>
+                        <li>Open your wearable's companion app and verify it's syncing to Apple Health.</li>
+                        <li>In the Health app, check <strong>Data Sources &amp; Access</strong> to confirm data is being written.</li>
+                        <li>Ensure Bluetooth is enabled and your device is connected.</li>
+                        <li>Restart both your iPhone and wearable device.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-title" data-en="🤖 AI assistant not responding" data-zh="🤖 AI 助手无响应">🤖 AI assistant not responding</div>
+                <div class="tip-desc" data-en="&lt;ol&gt;&lt;li&gt;Check that you have an active internet connection.&lt;/li&gt;&lt;li&gt;Ensure your API key or subscription is valid in &lt;strong&gt;Settings&lt;/strong&gt;.&lt;/li&gt;&lt;li&gt;Try closing and reopening the app.&lt;/li&gt;&lt;li&gt;If the issue persists, the AI service may be experiencing high demand — try again in a few minutes.&lt;/li&gt;&lt;/ol&gt;" data-zh="&lt;ol&gt;&lt;li&gt;检查您是否有活跃的互联网连接。&lt;/li&gt;&lt;li&gt;在&lt;strong&gt;设置&lt;/strong&gt;中确保您的 API 密钥或订阅有效。&lt;/li&gt;&lt;li&gt;尝试关闭并重新打开应用。&lt;/li&gt;&lt;li&gt;如果问题持续存在，AI 服务可能正在经历高需求——请稍后几分钟再试。&lt;/li&gt;&lt;/ol&gt;">
+                    <ol>
+                        <li>Check that you have an active internet connection.</li>
+                        <li>Ensure your API key or subscription is valid in <strong>Settings</strong>.</li>
+                        <li>Try closing and reopening the app.</li>
+                        <li>If the issue persists, the AI service may be experiencing high demand — try again in a few minutes.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-title" data-en="📊 Inaccurate health insights" data-zh="📊 健康洞察不准确">📊 Inaccurate health insights</div>
+                <div class="tip-desc" data-en="AI insights improve with more data. Wear your device consistently and ensure all relevant HealthKit categories are shared with Vela. If insights seem off, try providing more context when chatting with Avela." data-zh="AI 洞察会随着更多数据而改善。请持续佩戴您的设备，并确保所有相关的 HealthKit 类别已与 Vela 共享。如果洞察看起来不准确，请在与 Avela 对话时提供更多上下文信息。">
+                    AI insights improve with more data. Wear your device consistently and ensure all relevant HealthKit categories are shared with Vela. If insights seem off, try providing more context when chatting with Avela.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <img src="appicon.png" alt="Vela">
+                <span>&copy; 2026 Vela. All rights reserved.</span>
+            </div>
+            <div class="footer-links">
+                <a href="../">Home</a>
+                <a href="./">Vela</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        // Language switching
+        let currentLang = localStorage.getItem('vela-lang') || 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('vela-lang', lang);
+
+            // Update toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.trim() === (lang === 'en' ? 'EN' : '中文'));
+            });
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute('data-' + lang);
+                if (text) {
+                    // For elements that contain child elements (like faq-question with arrow)
+                    const arrow = el.querySelector('.faq-arrow');
+                    if (arrow) {
+                        el.innerHTML = text + ' <span class="faq-arrow">+</span>';
+                    } else {
+                        el.innerHTML = text;
+                    }
+                }
+            });
+
+            // Update page title
+            document.title = lang === 'en' ? 'Vela — Support' : 'Vela — 支持';
+        }
+
+        // Apply saved language on load
+        if (currentLang !== 'en') {
+            setLang(currentLang);
+        }
+    </script>
+</body>
+</html>
